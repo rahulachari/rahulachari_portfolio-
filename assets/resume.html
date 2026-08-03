@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rahul Achari YC — Resume</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1e293b;
+      --accent: #2563eb;
+      --text: #334155;
+      --text-dark: #0f172a;
+      --border: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      line-height: 1.5;
+      background: #f8fafc;
+      padding: 2rem 1rem;
+    }
+
+    .page {
+      max-width: 850px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 3rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border);
+    }
+
+    .header {
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .name {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+      margin-bottom: 0.4rem;
+    }
+
+    .contact-line {
+      font-size: 0.9rem;
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .contact-line a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.3rem;
+      margin: 1.5rem 0 0.8rem 0;
+    }
+
+    .summary-text {
+      font-size: 0.95rem;
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    .item {
+      margin-bottom: 1.2rem;
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .item-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .item-sub {
+      font-size: 0.9rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .item-date {
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+
+    .bullet-list {
+      margin-top: 0.4rem;
+      padding-left: 1.2rem;
+      font-size: 0.9rem;
+    }
+
+    .bullet-list li {
+      margin-bottom: 0.3rem;
+    }
+
+    .skills-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .skills-table td {
+      padding: 0.4rem 0;
+      vertical-align: top;
+    }
+
+    .skills-label {
+      font-weight: 700;
+      color: var(--text-dark);
+      width: 160px;
+    }
+
+    .actions-bar {
+      max-width: 850px;
+      margin: 0 auto 1.5rem auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .print-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .back-btn {
+      text-decoration: none;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        padding: 0;
+      }
+
+      .page {
+        box-shadow: none;
+        border: none;
+        padding: 0;
+      }
+
+      .actions-bar {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="actions-bar">
+    <a href="../index.html" class="back-btn">← Back to Portfolio</a>
+    <button onclick="window.print()" class="print-btn">Print / Save as PDF</button>
+  </div>
+
+  <div class="page">
+    <header class="header">
+      <h1 class="name">RAHUL ACHARI YC</h1>
+      <div class="contact-line">
+        <span>+91 86399 96301</span> |
+        <a href="mailto:rahulyc18@gmail.com">rahulyc18@gmail.com</a> |
+        <a href="https://linkedin.com/in/rahulyc" target="_blank">linkedin.com/in/rahulyc</a> |
+        <a href="https://github.com/rahulachari" target="_blank">github.com/rahulachari</a> |
+        <a href="https://rahulachari.github.io/" target="_blank">rahulachari.github.io</a> |
+        <span>Chittoor, AP</span>
+      </div>
+    </header>
+
+    <section>
+      <h2 class="section-title">Professional Summary</h2>
+      <p class="summary-text">
+        Computer Science graduate (B.Tech, CGPA 8.12/10) who independently shipped 3 production-grade AI/ML applications
+        to live deployment.
+        Built an AI real estate forecasting platform achieving 92% R² accuracy, a multi-domain ML web app serving 4
+        prediction domains, and a digital health assistant with real-time personalization.
+        Proficient in end-to-end ML lifecycle, LLM integration, Docker deployment, and full-stack development.
+      </p>
+    </section>
+
+    <section>
+      <h2 class="section-title">Project Experience</h2>
+
+      <div class="item">
+        <div class="item-header">
+          <span class="item-title">PropCast — AI Real Estate Forecasting Platform</span>
+          <span class="item-date">Microsoft AI Skills Fest 2026</span>
+        </div>
+        <div class="item-sub">Full Stack Developer</div>
+        <ul class="bullet-list">
+          <li><strong>Problem:</strong> Buyers in the Hyderabad real estate market had no AI-powered tool to forecast
+            property prices using actual transaction data, forcing decisions based on guesswork and broker estimates.
+          </li>
+          <li><strong>Action:</strong> Built end-to-end Django + Scikit-learn platform with Gradient Boosting model and
+            custom feature engineering; integrated Groq LLaMA API for natural-language market insights; developed Plotly
+            dashboards, CSV pipeline, and property comparison module.</li>
+          <li><strong>Outcome:</strong> Achieved 92% R² accuracy on price forecasts; shipped live app with AI chat,
+            interactive dashboards, and CSV export; containerized with Docker and deployed to Render.com using GitHub
+            Copilot.</li>
+        </ul>
+      </div>
+
+      <div class="item">
+        <div class="item-header">
+          <span class="item-title">UniML — Multi-Domain ML Web Application</span>
+          <span class="item-date">Final Year Project</span>
+        </div>
+        <div class="item-sub">Backend Developer</div>
+        <ul class="bullet-list">
+          <li><strong>Problem:</strong> Students and researchers lacked a unified platform to run ML predictions across
+            domains without installing Python, configuring environments, or writing code locally.</li>
+          <li><strong>Action:</strong> Architected 4-module Flask + SQLite app (Banking, Education, Loan, Healthcare);
+            built OCR-powered ATS resume scorer using OpenCV + Tesseract; trained Random Forest classifier on 800+
+            health records; implemented user authentication and session management.</li>
+          <li><strong>Outcome:</strong> Delivered a single deployable ML platform covering 4 prediction domains with
+            authenticated access; Dockerized and deployed to Render.com, eliminating local setup entirely.</li>
+        </ul>
+      </div>
+
+      <div class="item">
+        <div class="item-header">
+          <span class="item-title">ControL-D — Digital Health Assistant</span>
+          <span class="item-date">Full Stack Project</span>
+        </div>
+        <div class="item-sub">Full Stack Developer</div>
+        <ul class="bullet-list">
+          <li><strong>Problem:</strong> Diabetes patients juggled multiple apps for meal plans, workouts, glucose
+            tracking, and reminders — no single app combined all needs with AI-powered, personalized guidance.</li>
+          <li><strong>Action:</strong> Built responsive SPA with React, TypeScript, Tailwind CSS, and Supabase;
+            developed adaptive logic that adjusts recommendations by real-time health parameters (glucose, BMI,
+            activity); integrated AI wellness chat with topic-restricted responses for safe health guidance.</li>
+          <li><strong>Outcome:</strong> Shipped a unified health app with personalized nutrition, fitness, glucose
+            tracking, and daily reminders — all in one responsive interface with real-time data sync via Supabase.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Technical Skills</h2>
+      <table class="skills-table">
+        <tr>
+          <td class="skills-label">Languages</td>
+          <td>Python, JavaScript, TypeScript</td>
+        </tr>
+        <tr>
+          <td class="skills-label">Frameworks / Web</td>
+          <td>Django, Flask, React, HTML5, CSS3, Tailwind CSS</td>
+        </tr>
+        <tr>
+          <td class="skills-label">ML / Data</td>
+          <td>Scikit-learn, Pandas, NumPy, Gradient Boosting, Random Forest, OpenCV, Tesseract OCR</td>
+        </tr>
+        <tr>
+          <td class="skills-label">AI & Tools</td>
+          <td>Groq LLaMA API, GitHub Copilot, Docker, Git, GitHub, VS Code, Render.com</td>
+        </tr>
+        <tr>
+          <td class="skills-label">Databases</td>
+          <td>SQLite, Supabase</td>
+        </tr>
+      </table>
+    </section>
+
+    <section>
+      <h2 class="section-title">Education</h2>
+      <div class="item-header">
+        <span class="item-title">B.Tech in Computer Science Engineering — The Apollo University, Chittoor, AP</span>
+        <span class="item-date">Graduated April 2026 | CGPA: 8.12 / 10</span>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Certifications</h2>
+      <ul class="bullet-list">
+        <li>NPTEL — Introduction to Machine Learning (IIT Kharagpur)</li>
+        <li>Anthropic — AI Fluency for Students</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="section-title">Extracurricular & Leadership</h2>
+      <ul class="bullet-list">
+        <li>Member, The Apollo Career Catalyst Club — actively participated in technical workshops and peer-learning
+          sessions.</li>
+        <li>Independently led end-to-end development and deployment of 3 production-grade applications from concept to
+          live deployment.</li>
+        <li>Participated in Microsoft AI Skills Fest 2026 Hackathon (Agents League / Creative Apps track), leveraging
+          GitHub Copilot for rapid AI agent development.</li>
+      </ul>
+    </section>
+  </div>
+
+</body>
+
+</html>
