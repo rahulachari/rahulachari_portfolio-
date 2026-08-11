@@ -295,7 +295,7 @@ class LiquidMetalBtn {
    ────────────────────────────────────────────────────────────── */
 
 function initAllLiquidMetalButtons() {
-  const buttons = document.querySelectorAll('button:not(#mobile-hamburger-btn), .btn:not(#mobile-hamburger-btn)');
+  const buttons = document.querySelectorAll('button:not(#mobile-hamburger-btn), .btn:not(#mobile-hamburger-btn), .hz-btn, .hz-btn-outline');
   if (buttons.length === 0) return;
 
   buttons.forEach((btn) => {
