@@ -257,15 +257,59 @@
       activeTweenRefs[i] = tl.tweenTo(0, { duration: 0.2, ease, overwrite: 'auto' });
     };
   }
-
-
   /* ========================================================================
-     4. GSAP SCROLL ANIMATIONS (Silky 60fps Smooth Scroll)
+     4. GSAP SCROLL ANIMATIONS & LENIS & SCROLLSTACK
      ======================================================================== */
+  function initLenis() {
+    if (typeof Lenis === 'undefined') return;
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      direction: 'vertical',
+      gestureDirection: 'vertical',
+      smooth: true,
+      mouseMultiplier: 1,
+      smoothTouch: false,
+      touchMultiplier: 2,
+      infinite: false,
+    });
+
+    // Synchronize Lenis scrolling with GSAP's ScrollTrigger
+    if (typeof ScrollTrigger !== 'undefined') {
+      lenis.on('scroll', ScrollTrigger.update);
+
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
+      gsap.ticker.lagSmoothing(0);
+    } else {
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+    }
+  }
+
   function initScrollAnimations() {
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
     gsap.registerPlugin(ScrollTrigger);
+
+    initLenis();
+
+    if (typeof ScrollStackManager !== 'undefined') {
+      new ScrollStackManager({
+        itemDistance: 100,
+        itemScale: 0.03,
+        itemStackDistance: 30,
+        stackPosition: '20%',
+        scaleEndPosition: '10%',
+        baseScale: 0.85,
+        rotationAmount: 0,
+        blurAmount: 0,
+      });
+    }
 
     const els = document.querySelectorAll('[data-scroll]');
 
@@ -286,7 +330,7 @@
           scrollTrigger: {
             trigger: el,
             start: 'top 88%',
-            once: true // Runs once cleanly to prevent scrollbar lag or sticking
+            once: true
           }
         }
       );
@@ -306,8 +350,44 @@
     if (spideyEl) {
       spideyObserver.observe(spideyEl);
     }
+
+    initHorizontalScroll();
   }
 
+  /* ========================================================================
+     4B. GSAP HORIZONTAL PIN SCROLL (Native Hardware Composited Pinning)
+     ======================================================================== */
+  function initHorizontalScroll() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const pinWrapper = document.getElementById('hz-pin-wrapper');
+    const track = document.getElementById('hz-projects-track');
+
+    if (!pinWrapper || !track) return;
+
+    const getScrollAmount = () => {
+      const trackWidth = track.scrollWidth;
+      const offset = window.innerWidth <= 768 ? 20 : window.innerWidth * 0.05;
+      return -(trackWidth - window.innerWidth + offset);
+    };
+
+    gsap.to(track, {
+      x: getScrollAmount,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: pinWrapper,
+        start: 'top top',
+        end: () => `+=${track.scrollWidth - window.innerWidth}`,
+        pin: true,
+        scrub: true,
+        invalidateOnRefresh: true,
+        anticipatePin: 1,
+        fastScrollEnd: false
+      }
+    });
+  }
 
   /* ========================================================================
      5. HERO TYPING EFFECT
@@ -347,6 +427,19 @@
     }
     setTimeout(type, 1200);
   }
+
+  // Refresh ScrollTrigger when images load and window resizes
+  window.addEventListener('load', () => {
+    if (typeof ScrollTrigger !== 'undefined') {
+      ScrollTrigger.refresh();
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (typeof ScrollTrigger !== 'undefined') {
+      ScrollTrigger.refresh();
+    }
+  });
 
   // Initialize systems when script loads
   if (document.readyState === 'loading') {

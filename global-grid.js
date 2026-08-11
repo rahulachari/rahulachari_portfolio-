@@ -75,25 +75,32 @@ window.addEventListener('load', () => {
         initGrid();
     }
 
+    let isVisible = true;
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { isVisible = entry.isIntersecting; });
+    }, { rootMargin: '100px' });
+    observer.observe(canvas);
+
     function animate() {
-        ctx.clearRect(0, 0, width, height);
-        
-        const time = Date.now() * 0.001;
-        const scrollY = window.scrollY; // Parallax effect
-        
-        let currentColor = '';
-        
-        for (let i = 0; i < gridParticles.length; i++) {
-            const p = gridParticles[i];
-            p.update(time, scrollY);
+        if (isVisible) {
+            ctx.clearRect(0, 0, width, height);
             
-            if (p.color !== currentColor) {
-                currentColor = p.color;
-                ctx.fillStyle = currentColor;
+            const time = Date.now() * 0.001;
+            const scrollY = window.scrollY; // Parallax effect
+            
+            let currentColor = '';
+            
+            for (let i = 0; i < gridParticles.length; i++) {
+                const p = gridParticles[i];
+                p.update(time, scrollY);
+                
+                if (p.color !== currentColor) {
+                    currentColor = p.color;
+                    ctx.fillStyle = currentColor;
+                }
+                
+                ctx.fillRect(p.x, p.y, p.size, p.size);
             }
-            
-            // fillRect is significantly faster than arc() + fill() for tiny dots
-            ctx.fillRect(p.x, p.y, p.size, p.size);
         }
         
         requestAnimationFrame(animate);

@@ -10,10 +10,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=TASA+Explorer:wght@400;500;600;700;800&family=TASA+Orbiter:wght@400;500;600;700&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="scroll-stack.css">
 </head>
 
 <body>
@@ -466,147 +467,166 @@
         <div class="container">
           <div class="about-text-block" data-scroll="fade-up">
             <h2 class="display-heading">
-              I am an AI/ML engineer who independently shipped 3 production applications — from model training to live
-              deployment.<span class="cursor-blink">|</span>
+              I build AI products end-to-end — and ship them.<span class="cursor-blink">|</span>
             </h2>
           </div>
         </div>
       </section>
 
-      <!-- PROJECTS -->
-      <section class="section section-projects" id="projects">
-        <div class="container">
-
-          <!-- PropCast -->
-          <div class="feature-row" data-scroll="fade-up">
-            <div class="feature-copy">
-              <h2 class="feature-title">PropCast</h2>
-              <p class="feature-description">
-                AI-powered real estate forecasting platform achieving 92% R² accuracy using Gradient Boosting,
-                integrated with Groq LLaMA for natural language market insights, Plotly dashboards, and property
-                comparison tools. Dockerized and deployed to Render.
-              </p>
-              <div class="feature-meta">
-                <span class="meta-tag">Python</span>
-                <span class="meta-tag">Django</span>
-                <span class="meta-tag">Scikit-learn</span>
-                <span class="meta-tag">Groq LLaMA</span>
-                <span class="meta-tag">Docker</span>
-              </div>
-              <div class="project-btn-group">
-                <a href="https://propcast-oyan.onrender.com/" target="_blank" rel="noopener noreferrer"
-                  class="btn btn-outline btn-md">
-                  Live demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                </a>
-                <a href="https://github.com/rahulachari/PropCast" target="_blank" rel="noopener noreferrer"
-                  class="btn btn-outline btn-md">
-                  GitHub <i class="fa-brands fa-github"></i>
-                </a>
-              </div>
+      <!-- PROJECTS (Horizontal Pin Scroll) -->
+      <section class="section section-projects-horizontal" id="projects">
+        <div class="hz-scroll-pin-wrapper" id="hz-pin-wrapper">
+          <div class="hz-header container">
+            <div class="hz-badge-wrapper">
+              <span class="hz-badge"><i class="fa-solid fa-layer-group"></i> Featured Projects</span>
             </div>
-            <div class="feature-media">
-              <div class="media-card">
-                <div class="terminal-mock">
-                  <div class="terminal-dots"><span></span><span></span><span></span></div>
-                  <div class="terminal-content">
-                    <p class="t-line"><span class="t-prompt">$</span> propcast predict --location "Hyderabad" --bhk 3
-                    </p>
-                    <p class="t-line t-result"><span class="t-green">✓</span> Estimated Value: ₹1.48 Cr — ₹1.62 Cr</p>
-                    <p class="t-line t-result"><span class="t-green">✓</span> R² Accuracy: 92.4%</p>
-                    <p class="t-line t-result"><span class="t-green">✓</span> LLaMA Insight: "Strong YoY growth
-                      corridor"</p>
-                    <p class="t-line t-muted"># Feature weights: Location 0.42, Area 0.31</p>
-                  </div>
-                </div>
+            <div class="hz-header-flex">
+              <h2 class="section-heading hz-heading">Featured AI Engineering Projects</h2>
+              <div class="hz-scroll-hint">
+                <span>Scroll to explore</span>
+                <i class="fa-solid fa-arrow-right-long"></i>
               </div>
             </div>
           </div>
 
-          <!-- UniML -->
-          <div class="feature-row feature-row-reverse" data-scroll="fade-up">
-            <div class="feature-copy">
-              <h2 class="feature-title">UniML</h2>
-              <p class="feature-description">
-                Multi-domain ML web application covering Banking, Education, Loan, and Healthcare prediction modules.
-                Features an OCR-powered ATS resume scorer using OpenCV + Tesseract, Random Forest classifier trained on
-                800+ health records, and full user authentication.
-              </p>
-              <div class="feature-meta">
-                <span class="meta-tag">Flask</span>
-                <span class="meta-tag">SQLite</span>
-                <span class="meta-tag">OpenCV</span>
-                <span class="meta-tag">Tesseract OCR</span>
-                <span class="meta-tag">Random Forest</span>
-              </div>
-              <div class="project-btn-group">
-                <a href="https://uniml.onrender.com/" target="_blank" rel="noopener noreferrer"
-                  class="btn btn-outline btn-md">
-                  Live demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                </a>
-                <a href="https://github.com/rahulachari/UniML" target="_blank" rel="noopener noreferrer"
-                  class="btn btn-outline btn-md">
-                  GitHub <i class="fa-brands fa-github"></i>
-                </a>
-              </div>
-            </div>
-            <div class="feature-media">
-              <div class="media-card media-card-dark">
-                <div class="terminal-mock terminal-dark">
-                  <div class="terminal-dots"><span></span><span></span><span></span></div>
-                  <div class="terminal-content">
-                    <p class="t-line"><span class="t-prompt">$</span> uniml scan --module ats --input resume.pdf</p>
-                    <p class="t-line t-result"><span class="t-blue">→</span> OpenCV text extraction complete</p>
-                    <p class="t-line t-result"><span class="t-blue">→</span> Keywords matched: Python, Docker, React, ML
-                    </p>
-                    <p class="t-line t-result"><span class="t-green">✓</span> ATS Score: 91/100 (Strong Match)</p>
-                    <p class="t-line t-muted"># 4 domains active: Banking, Edu, Loan, Health</p>
+          <div class="hz-track-container">
+            <div class="hz-track" id="hz-projects-track">
+              
+              <!-- CARD 1: PropCast -->
+              <div class="hz-card">
+                <div class="hz-card-bg" style="background-image: url('assets/images/propcast.jpg'); --bg-pos: center top;"></div>
+                <div class="hz-card-overlay"></div>
+                <div class="hz-card-content">
+                  <h3 class="hz-card-title">PropCast</h3>
+                  <p class="hz-card-desc">
+                    AI-powered real estate forecasting platform achieving 92% R² accuracy using Gradient Boosting, integrated with Groq LLaMA for natural language market insights, Plotly dashboards, and property comparison tools.
+                  </p>
+                  <div class="hz-card-tools">
+                    <span class="hz-tool-tag">Python</span>
+                    <span class="hz-tool-tag">Django</span>
+                    <span class="hz-tool-tag">Scikit-learn</span>
+                    <span class="hz-tool-tag">Groq LLaMA</span>
+                    <span class="hz-tool-tag">Docker</span>
+                  </div>
+                  <div class="hz-card-actions">
+                    <a href="https://propcast-oyan.onrender.com/" target="_blank" rel="noopener noreferrer" class="hz-btn">
+                      Live Demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                    <a href="https://github.com/rahulachari/PropCast" target="_blank" rel="noopener noreferrer" class="hz-btn-outline">
+                      GitHub <i class="fa-brands fa-github"></i>
+                    </a>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
 
-          <!-- Control-D -->
-          <div class="feature-row" data-scroll="fade-up">
-            <div class="feature-copy">
-              <h2 class="feature-title">Control-D</h2>
-              <p class="feature-description">
-                Unified digital health assistant with adaptive recommendation engine adjusting nutrition and workout
-                plans by real-time glucose and BMI parameters. Features topic-restricted AI wellness chat, Supabase
-                real-time sync, and biometric tracking dashboard.
-              </p>
-              <div class="feature-meta">
-                <span class="meta-tag">React</span>
-                <span class="meta-tag">TypeScript</span>
-                <span class="meta-tag">Tailwind CSS</span>
-                <span class="meta-tag">Supabase</span>
-                <span class="meta-tag">AI Chat</span>
-              </div>
-              <div class="project-btn-group">
-                <a href="https://controld-three.vercel.app/" target="_blank" rel="noopener noreferrer"
-                  class="btn btn-outline btn-md">
-                  Live demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                </a>
-                <a href="https://github.com/rahulachari/Control-D" target="_blank" rel="noopener noreferrer"
-                  class="btn btn-outline btn-md">
-                  GitHub <i class="fa-brands fa-github"></i>
-                </a>
-              </div>
-            </div>
-            <div class="feature-media">
-              <div class="media-card">
-                <div class="terminal-mock">
-                  <div class="terminal-dots"><span></span><span></span><span></span></div>
-                  <div class="terminal-content">
-                    <p class="t-line"><span class="t-prompt">$</span> controld plan --glucose 142 --bmi 24.2</p>
-                    <p class="t-line t-result"><span class="t-yellow">⚡</span> Elevated glucose detected</p>
-                    <p class="t-line t-result"><span class="t-green">✓</span> Nutrition: 30g low-GI carbs recommended
-                    </p>
-                    <p class="t-line t-result"><span class="t-green">✓</span> Activity: 15 min post-meal walk</p>
-                    <p class="t-line t-muted"># AI guardrails: health-topic-only mode active</p>
+              <!-- CARD 2: UniML -->
+              <div class="hz-card">
+                <div class="hz-card-bg" style="background-image: url('assets/images/UnimL.jpg'); --bg-pos: center top;"></div>
+                <div class="hz-card-overlay"></div>
+                <div class="hz-card-content">
+                  <h3 class="hz-card-title">UniML</h3>
+                  <p class="hz-card-desc">
+                    Multi-domain ML web application covering Banking, Education, Loan, and Healthcare prediction modules. Features an OCR-powered ATS resume scorer using OpenCV + Tesseract and Random Forest classification.
+                  </p>
+                  <div class="hz-card-tools">
+                    <span class="hz-tool-tag">Flask</span>
+                    <span class="hz-tool-tag">SQLite</span>
+                    <span class="hz-tool-tag">OpenCV</span>
+                    <span class="hz-tool-tag">Tesseract OCR</span>
+                    <span class="hz-tool-tag">Random Forest</span>
+                  </div>
+                  <div class="hz-card-actions">
+                    <a href="https://uniml.onrender.com/" target="_blank" rel="noopener noreferrer" class="hz-btn">
+                      Live Demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                    <a href="https://github.com/rahulachari/UniML" target="_blank" rel="noopener noreferrer" class="hz-btn-outline">
+                      GitHub <i class="fa-brands fa-github"></i>
+                    </a>
                   </div>
                 </div>
               </div>
+
+              <!-- CARD 3: Control-D -->
+              <div class="hz-card">
+                <div class="hz-card-bg" style="background-image: url('assets/images/ContoL-D.jpg'); --bg-pos: center top;"></div>
+                <div class="hz-card-overlay"></div>
+                <div class="hz-card-content">
+                  <h3 class="hz-card-title">Control-D</h3>
+                  <p class="hz-card-desc">
+                    Unified digital health assistant with adaptive recommendation engine adjusting nutrition and workout plans by real-time glucose and BMI parameters. Features AI wellness chat and Supabase real-time sync.
+                  </p>
+                  <div class="hz-card-tools">
+                    <span class="hz-tool-tag">React</span>
+                    <span class="hz-tool-tag">TypeScript</span>
+                    <span class="hz-tool-tag">Tailwind CSS</span>
+                    <span class="hz-tool-tag">Supabase</span>
+                    <span class="hz-tool-tag">AI Chat</span>
+                  </div>
+                  <div class="hz-card-actions">
+                    <a href="https://controld-three.vercel.app/" target="_blank" rel="noopener noreferrer" class="hz-btn">
+                      Live Demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                    <a href="https://github.com/rahulachari/Control-D" target="_blank" rel="noopener noreferrer" class="hz-btn-outline">
+                      GitHub <i class="fa-brands fa-github"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CARD 4: Adhikar -->
+              <div class="hz-card">
+                <div class="hz-card-bg" style="background-image: url('assets/images/Adhikar.jpg'); --bg-pos: center 30%;"></div>
+                <div class="hz-card-overlay"></div>
+                <div class="hz-card-content">
+                  <h3 class="hz-card-title">Adhikar</h3>
+                  <p class="hz-card-desc">
+                    AI-powered land document intelligence platform designed to extract, analyze, and verify legal deeds and land records effortlessly using machine learning models and OCR analysis.
+                  </p>
+                  <div class="hz-card-tools">
+                    <span class="hz-tool-tag">Python</span>
+                    <span class="hz-tool-tag">Machine Learning</span>
+                    <span class="hz-tool-tag">Document AI</span>
+                    <span class="hz-tool-tag">OCR</span>
+                    <span class="hz-tool-tag">Vercel</span>
+                  </div>
+                  <div class="hz-card-actions">
+                    <a href="https://adhikar-azure.vercel.app/" target="_blank" rel="noopener noreferrer" class="hz-btn">
+                      Live Demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                    <a href="https://github.com/rahulachari/Adhikar-LandDocAI-" target="_blank" rel="noopener noreferrer" class="hz-btn-outline">
+                      GitHub <i class="fa-brands fa-github"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CARD 5: Precast Walls -->
+              <div class="hz-card">
+                <div class="hz-card-bg" style="background-image: url('assets/images/precast walls.jpg'); --bg-pos: center center;"></div>
+                <div class="hz-card-overlay"></div>
+                <div class="hz-card-content">
+                  <h3 class="hz-card-title">Precast Walls</h3>
+                  <p class="hz-card-desc">
+                    Single-page production website for a precast compound wall manufacturer — featuring interactive 3D Canvas wall builder, smart project cost estimator, and interactive product showcase.
+                  </p>
+                  <div class="hz-card-tools">
+                    <span class="hz-tool-tag">HTML5</span>
+                    <span class="hz-tool-tag">CSS3</span>
+                    <span class="hz-tool-tag">JavaScript</span>
+                    <span class="hz-tool-tag">Canvas API</span>
+                    <span class="hz-tool-tag">Netlify</span>
+                  </div>
+                  <div class="hz-card-actions">
+                    <a href="https://glittery-selkie-dcfb25.netlify.app/" target="_blank" rel="noopener noreferrer" class="hz-btn">
+                      Live Demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                    <a href="https://github.com/rahulachari/WallCraft_Precast-Walls" target="_blank" rel="noopener noreferrer" class="hz-btn-outline">
+                      GitHub <i class="fa-brands fa-github"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -617,14 +637,15 @@
         <div class="container">
           <div class="section-intro" data-scroll="fade-up">
             <h2 class="section-heading">All Repositories &amp; Featured Builds</h2>
-            <p class="section-subheading">Additional desktop applications, network audio tools, and production client
-              websites.</p>
+            <p class="section-subheading">Additional desktop applications, network audio tools, and production utility tools.</p>
           </div>
 
           <div class="more-projects-grid">
 
             <!-- Beat Sync -->
-            <div class="project-card" data-scroll="fade-up" data-delay="0.0">
+            <div class="project-card has-bg" data-scroll="fade-up" data-delay="0.0">
+              <div class="project-card-bg" style="background-image: url('assets/images/Beat-sync.jpg');"></div>
+              <div class="project-card-overlay"></div>
               <div>
                 <div class="project-card-header">
                   <div class="project-card-icon"><i class="fa-solid fa-music"></i></div>
@@ -650,7 +671,9 @@
             </div>
 
             <!-- Reminder Remix -->
-            <div class="project-card" data-scroll="fade-up" data-delay="0.08">
+            <div class="project-card has-bg" data-scroll="fade-up" data-delay="0.08">
+              <div class="project-card-bg" style="background-image: url('assets/images/reminder remix.jpg');"></div>
+              <div class="project-card-overlay"></div>
               <div>
                 <div class="project-card-header">
                   <div class="project-card-icon"><i class="fa-solid fa-bell"></i></div>
@@ -675,36 +698,6 @@
               </div>
             </div>
 
-            <!-- WallCraft Precast Walls -->
-            <div class="project-card" data-scroll="fade-up" data-delay="0.16">
-              <div>
-                <div class="project-card-header">
-                  <div class="project-card-icon"><i class="fa-solid fa-cubes"></i></div>
-                </div>
-                <h3 class="project-card-title">WallCraft Precast Walls</h3>
-                <p class="project-card-desc">
-                  Single-page business website for a precast compound wall manufacturer — 3D animations, interactive
-                  Canvas wall builder, smart project estimator, and product showcase.
-                </p>
-                <div class="project-card-tags">
-                  <span class="meta-tag">HTML5</span>
-                  <span class="meta-tag">CSS3</span>
-                  <span class="meta-tag">JavaScript</span>
-                  <span class="meta-tag">Canvas API</span>
-                </div>
-              </div>
-              <div class="project-card-footer">
-                <a href="https://glittery-selkie-dcfb25.netlify.app/" target="_blank" rel="noopener noreferrer"
-                  class="btn btn-outline btn-sm">
-                  Live demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                </a>
-                <a href="https://github.com/rahulachari/WallCraft_Precast-Walls" target="_blank"
-                  rel="noopener noreferrer" class="btn btn-outline btn-sm">
-                  GitHub <i class="fa-brands fa-github"></i>
-                </a>
-              </div>
-            </div>
-
           </div>
         </div>
       </section>
@@ -717,7 +710,7 @@
             <h2 class="section-heading">Technical skills &amp; engineering stack</h2>
           </div>
           <div class="skills-grid">
-            <div class="skill-card" data-scroll="fade-up" data-delay="0.0">
+            <div class="skill-card">
               <div class="skill-card-content">
                 <div class="skill-icon"><i class="fa-brands fa-python"></i></div>
                 <h3>Languages</h3>
@@ -731,7 +724,7 @@
                 </svg>
               </div>
             </div>
-            <div class="skill-card" data-scroll="fade-up" data-delay="0.06">
+            <div class="skill-card">
               <div class="skill-card-content">
                 <div class="skill-icon"><i class="fa-solid fa-layer-group"></i></div>
                 <h3>Web Frameworks</h3>
@@ -744,7 +737,7 @@
                 </svg>
               </div>
             </div>
-            <div class="skill-card" data-scroll="fade-up" data-delay="0.12">
+            <div class="skill-card">
               <div class="skill-card-content">
                 <div class="skill-icon"><i class="fa-solid fa-brain"></i></div>
                 <h3>ML &amp; Data Science</h3>
@@ -758,7 +751,7 @@
                 </svg>
               </div>
             </div>
-            <div class="skill-card" data-scroll="fade-up" data-delay="0.18">
+            <div class="skill-card">
               <div class="skill-card-content">
                 <div class="skill-icon"><i class="fa-solid fa-robot"></i></div>
                 <h3>AI &amp; LLM Tools</h3>
@@ -776,7 +769,7 @@
                 </svg>
               </div>
             </div>
-            <div class="skill-card" data-scroll="fade-up" data-delay="0.24">
+            <div class="skill-card">
               <div class="skill-card-content">
                 <div class="skill-icon"><i class="fa-brands fa-docker"></i></div>
                 <h3>DevOps &amp; Cloud</h3>
@@ -789,7 +782,7 @@
                 </svg>
               </div>
             </div>
-            <div class="skill-card" data-scroll="fade-up" data-delay="0.30">
+            <div class="skill-card">
               <div class="skill-card-content">
                 <div class="skill-icon"><i class="fa-solid fa-database"></i></div>
                 <h3>Databases</h3>
@@ -1001,6 +994,10 @@
   <!-- Three.js for Mesh Gradient Shader -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+  
+  <script src="scroll-stack.js"></script>
   <script src="script.js"></script>
   <script type="module" src="liquid-metal-button.js"></script>
   <!-- Import map for Three.js ES Modules -->
@@ -1013,6 +1010,5 @@
     }
   </script>
   <script src="global-grid.js"></script>
-  <script src="particle-brackets.js"></script>
 </body>
 </html>
