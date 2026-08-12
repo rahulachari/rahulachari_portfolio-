@@ -191,8 +191,6 @@ export default class Scanner {
     this.canvas.style.zIndex = '0';
     this.canvas.style.pointerEvents = 'none';
 
-    this.container.style.position = 'relative';
-    this.container.style.overflow = 'hidden';
     this.container.prepend(this.canvas);
 
     const geometry = new Triangle(gl);

@@ -365,11 +365,7 @@
         opacity: 1,
         duration: 0.8,
         stagger: 0.03,
-        ease: 'power4.out',
-        onComplete: () => {
-          // Start the typing effect after slide up finishes
-          setTimeout(type, 200);
-        }
+        ease: 'power4.out'
       });
       
       // Animate buttons and header in
@@ -384,7 +380,6 @@
     } else {
       // Fallback if GSAP is not loaded
       heroLine.innerText = text;
-      setTimeout(type, 200);
     }
   };
 
