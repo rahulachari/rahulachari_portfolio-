@@ -1,4 +1,7 @@
 window.addEventListener('load', () => {
+    // Disable on mobile devices
+    if (window.innerWidth <= 768) return;
+
     const canvas = document.createElement('canvas');
     canvas.id = 'global-grid-canvas';
     canvas.style.position = 'fixed';

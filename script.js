@@ -11,25 +11,42 @@
      1. PRELOADER
      ======================================================================== */
   const preloader = document.getElementById('preloader');
-  const preloaderFill = document.getElementById('preloader-fill');
+  const loaderCounter = document.getElementById('loader-counter');
   const siteWrapper = document.getElementById('site-wrapper');
 
   let loadProgress = 0;
   const loadInterval = setInterval(() => {
-    loadProgress += Math.random() * 22 + 10;
+    // Slower increment at the beginning, faster at the end
+    let increment = Math.random() * 5 + 1;
+    if (loadProgress > 70) increment = Math.random() * 10 + 5;
+    
+    loadProgress += increment;
+    
     if (loadProgress >= 100) loadProgress = 100;
-    if (preloaderFill) preloaderFill.style.width = loadProgress + '%';
+    
+    if (loaderCounter) loaderCounter.innerText = Math.floor(loadProgress);
+    
     if (loadProgress >= 100) {
       clearInterval(loadInterval);
       setTimeout(() => {
-        if (preloader) preloader.classList.add('hidden');
+        if (preloader) preloader.classList.add('slide-up');
         if (siteWrapper) siteWrapper.classList.add('visible');
+        
+        setTimeout(() => {
+          if (preloader) preloader.style.display = 'none';
+        }, 1000); // Wait for slide-up animation
+
         setTimeout(initScrollAnimations, 150);
         setTimeout(initPillNav, 200);
         setTimeout(initMarqueeScroll, 300);
-      }, 250);
+        
+        // Trigger hero staggered text animation
+        if (typeof window.playHeroAnimation === 'function') {
+           window.playHeroAnimation();
+        }
+      }, 300);
     }
-  }, 35);
+  }, 40);
 
 
 
@@ -38,6 +55,9 @@
      2. MESH GRADIENT SHADER BACKGROUND (Vanilla Three.js Port)
      ======================================================================== */
   function initMeshGradient() {
+    // Disable on mobile to improve performance
+    if (window.innerWidth <= 768) return;
+
     const canvas = document.getElementById('mesh-gradient-canvas');
     if (!canvas || typeof THREE === 'undefined') return;
 
@@ -424,9 +444,62 @@
       }
 
       setTimeout(type, speed);
-    }
-    setTimeout(type, 1200);
+    // Typing effect is now started by playHeroAnimation
   }
+
+  /* ========================================================================
+     6. HERO STAGGERED ANIMATION (Jasmine Gunarto Style)
+     ======================================================================== */
+  window.playHeroAnimation = function() {
+    const heroLine = document.getElementById('hero-line-1');
+    const mainTitle = document.getElementById('main-hero-title');
+    if (!heroLine || !mainTitle) return;
+
+    // Split text into spans for staggered animation
+    const text = heroLine.innerText;
+    heroLine.innerHTML = '';
+    
+    // Set main title to visible if hidden
+    mainTitle.style.opacity = '1';
+
+    for (let i = 0; i < text.length; i++) {
+      const span = document.createElement('span');
+      span.innerText = text[i] === ' ' ? '\u00A0' : text[i];
+      span.style.display = 'inline-block';
+      span.style.transform = 'translateY(100%)';
+      span.style.opacity = '0';
+      heroLine.appendChild(span);
+    }
+
+    // Animate characters
+    if (typeof gsap !== 'undefined') {
+      gsap.to('#hero-line-1 span', {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.03,
+        ease: 'power4.out',
+        onComplete: () => {
+          // Start the typing effect after slide up finishes
+          setTimeout(type, 200);
+        }
+      });
+      
+      // Animate buttons and header in
+      gsap.fromTo('.hero-buttons', 
+        { y: 30, opacity: 0 }, 
+        { y: 0, opacity: 1, duration: 1, delay: 0.8, ease: 'power3.out' }
+      );
+      gsap.fromTo('.header', 
+        { y: -30, opacity: 0 }, 
+        { y: 0, opacity: 1, duration: 1, delay: 1, ease: 'power3.out' }
+      );
+    } else {
+      // Fallback if GSAP is not loaded
+      heroLine.innerText = text;
+      setTimeout(type, 200);
+    }
+  };
 
   // Refresh ScrollTrigger when images load and window resizes
   window.addEventListener('load', () => {

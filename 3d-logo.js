@@ -7,6 +7,9 @@ const gsap = window.gsap;
 
 class Logo3D {
   constructor() {
+    // Disable on mobile
+    if (window.innerWidth <= 768) return;
+
     this.wrapper = document.getElementById('logo-3d-wrapper');
     if (!this.wrapper) return;
 

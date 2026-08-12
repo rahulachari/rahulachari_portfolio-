@@ -105,80 +105,29 @@ button {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  transition: opacity 0.5s ease, visibility 0.5s ease;
+  transition: transform 1s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
-.preloader.hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
+.preloader.slide-up {
+  transform: translateY(-100%);
 }
 
-.infinite-ribbon-container {
-  position: absolute;
-  top: 50%;
-  left: -50vw;
-  width: 200vw;
-  overflow: hidden;
-  background-color: #facc15;
-  /* Tailwind yellow-400 */
-  padding: 12px 0;
-  color: #000;
-  font-size: 1.25rem;
-  transform-origin: center;
-}
-
-.ribbon-1 {
-  transform: translateY(-50%) rotate(5deg);
-}
-
-.ribbon-2 {
-  transform: translateY(-50%) rotate(-5deg);
-}
-
-@media (max-width: 768px) {
-  .ribbon-1 {
-    transform: translateY(-50%) rotate(25deg);
-  }
-
-  .ribbon-2 {
-    transform: translateY(-50%) rotate(-25deg);
-  }
-}
-
-.infinite-ribbon-track {
+.loader-counter-container {
   display: flex;
-  width: max-content;
-  white-space: nowrap;
-}
-
-@keyframes infinite-ribbon {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-@keyframes infinite-ribbon-reverse {
-  from {
-    transform: translateX(-50%);
-  }
-
-  to {
-    transform: translateX(0);
-  }
-}
-
-.infinite-ribbon-item {
-  display: inline-block;
-  margin-right: 2rem;
-  user-select: none;
+  flex-direction: row;
+  align-items: flex-end;
   font-family: var(--font-heading);
-  font-weight: 700;
-  letter-spacing: 1px;
+  font-size: clamp(4rem, 10vw, 8rem);
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+#loader-counter::after {
+  content: "%";
+  font-size: clamp(2rem, 5vw, 4rem);
+  margin-left: 0.5rem;
+  font-weight: 600;
 }
 
 .site-wrapper {
