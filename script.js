@@ -606,8 +606,7 @@
       span.innerText = letter === ' ' ? '\u00A0' : letter;
       
       const rotationDeg = (360 / letters.length) * i;
-      // 45px is half the 90px width of the container
-      const transform = `rotateZ(${rotationDeg}deg) translateY(-45px)`;
+      const transform = `rotateZ(${rotationDeg}deg)`;
       
       span.style.transform = transform;
       span.style.webkitTransform = transform;

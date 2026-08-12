@@ -2582,12 +2582,12 @@ button {
    ========================================================================== */
 .circular-text-logo {
   position: absolute;
-  top: 30px;
-  left: 30px;
-  width: 90px;
-  height: 90px;
+  top: 35px;
+  left: 35px;
+  width: 80px;
+  height: 80px;
   font-family: var(--font-heading);
-  font-weight: 800;
+  font-weight: 900;
   color: var(--text-primary);
   text-align: center;
   cursor: pointer;
@@ -2602,9 +2602,9 @@ button {
   right: 0;
   top: 0;
   bottom: 0;
-  font-size: 11px;
+  font-size: 13px;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 @media (max-width: 992px) {
