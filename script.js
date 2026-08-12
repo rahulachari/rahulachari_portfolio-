@@ -72,7 +72,7 @@
       antialias: true,
       powerPreference: 'high-performance'
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
     function resize() {
       renderer.setSize(window.innerWidth, window.innerHeight);
@@ -538,10 +538,13 @@
     let position = 0;
     let lastScrollY = window.scrollY;
     let scrollTimeout;
+    
+    // Cache track width to prevent layout thrashing in rAF
+    let cachedTrackWidth = marquee.scrollWidth / 3;
 
-    function getTrackWidth() {
-      return marquee.scrollWidth / 3;
-    }
+    window.addEventListener('resize', () => {
+      cachedTrackWidth = marquee.scrollWidth / 3;
+    }, { passive: true });
 
     window.addEventListener("scroll", () => {
       let currentScrollY = window.scrollY;
@@ -558,14 +561,14 @@
       scrollTimeout = setTimeout(() => {
         targetSpeed = baseSpeed;
       }, 200);
-    });
+    }, { passive: true });
 
     function tick() {
       currentSpeed += (targetSpeed - currentSpeed) * 0.08;
 
       position -= currentSpeed;
 
-      let trackWidth = getTrackWidth();
+      let trackWidth = cachedTrackWidth;
 
       // Guard against zero width (hidden element)
       if (trackWidth > 0) {
@@ -581,8 +584,7 @@
     }
 
     // Start with a small negative offset so the loop wraps correctly from the start
-    let tw = getTrackWidth();
-    if (tw > 0) position = -1;
+    if (cachedTrackWidth > 0) position = -1;
 
     tick();
   }
