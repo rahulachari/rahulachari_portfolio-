@@ -51,120 +51,6 @@
 
 
 
-  /* ========================================================================
-     2. MESH GRADIENT SHADER BACKGROUND (Vanilla Three.js Port)
-     ======================================================================== */
-  function initMeshGradient() {
-    // Disable on mobile to improve performance
-    if (window.innerWidth <= 768) return;
-
-    const canvas = document.getElementById('mesh-gradient-canvas');
-    if (!canvas || typeof THREE === 'undefined') return;
-
-    const scene = new THREE.Scene();
-
-    // Orthographic camera works best for full-screen 2D shader planes
-    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-
-    const renderer = new THREE.WebGLRenderer({
-      canvas: canvas,
-      alpha: true,
-      antialias: true,
-      powerPreference: 'high-performance'
-    });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-
-    function resize() {
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    }
-    window.addEventListener('resize', resize);
-    resize();
-
-    // Rich, professional pastel palette (Lavender & Light Blue)
-    // This is highly visible but keeps the dark text readable
-    const color1 = new THREE.Color('#c2c9fb'); // Rich soft periwinkle/blue
-    const color2 = new THREE.Color('#e0c3fc'); // Soft rich lavender
-
-    // Optionally add a 3rd color if you want to extend the shader, but we stick to the provided one
-    // The provided shader uses color1 and color2, we'll pass an extra "intensity" uniform.
-
-    const vertexShader = `
-      uniform float time;
-      uniform float intensity;
-      varying vec2 vUv;
-      varying vec3 vPosition;
-      
-      void main() {
-        vUv = uv;
-        vPosition = position;
-        
-        vec3 pos = position;
-        pos.y += sin(pos.x * 10.0 + time) * 0.1 * intensity;
-        pos.x += cos(pos.y * 8.0 + time * 1.5) * 0.05 * intensity;
-        
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-      }
-    `;
-
-    const fragmentShader = `
-      uniform float time;
-      uniform float intensity;
-      uniform vec3 color1;
-      uniform vec3 color2;
-      varying vec2 vUv;
-      varying vec3 vPosition;
-      
-      void main() {
-        vec2 uv = vUv;
-        
-        // Create animated noise pattern
-        float noise = sin(uv.x * 20.0 + time) * cos(uv.y * 15.0 + time * 0.8);
-        noise += sin(uv.x * 35.0 - time * 2.0) * cos(uv.y * 25.0 + time * 1.2) * 0.5;
-        
-        // Mix colors based on noise and position
-        vec3 color = mix(color1, color2, noise * 0.5 + 0.5);
-        color = mix(color, vec3(1.0), pow(abs(noise), 2.0) * intensity);
-        
-        // Add glow effect
-        float glow = 1.0 - length(uv - 0.5) * 2.0;
-        glow = pow(glow, 2.0);
-        
-        gl_FragColor = vec4(color * glow, glow * 0.8);
-      }
-    `;
-
-    const uniforms = {
-      time: { value: 0 },
-      intensity: { value: 1.0 },
-      color1: { value: color1 },
-      color2: { value: color2 }
-    };
-
-    const geometry = new THREE.PlaneGeometry(2, 2, 32, 32);
-    const material = new THREE.ShaderMaterial({
-      uniforms: uniforms,
-      vertexShader: vertexShader,
-      fragmentShader: fragmentShader,
-      transparent: true,
-      side: THREE.DoubleSide
-    });
-
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
-
-    const clock = new THREE.Clock();
-
-    function render() {
-      requestAnimationFrame(render);
-      const elapsedTime = clock.getElapsedTime();
-
-      uniforms.time.value = elapsedTime;
-      uniforms.intensity.value = 1.6 + Math.sin(elapsedTime * 1.5) * 0.4; // Stronger intensity for visibility
-
-      renderer.render(scene, camera);
-    }
-    render();
-  }
 
   /* ========================================================================
      3. PILL NAV SYSTEM & MOBILE MENU
@@ -518,12 +404,10 @@
   // Initialize systems when script loads
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-      initMeshGradient();
       initPillNav();
     });
   } else {
     setTimeout(() => {
-      initMeshGradient();
       initPillNav();
     }, 100);
   }
