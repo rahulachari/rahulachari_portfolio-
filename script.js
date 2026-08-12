@@ -444,6 +444,7 @@
       }
 
       setTimeout(type, speed);
+    }
     // Typing effect is now started by playHeroAnimation
   }
 
