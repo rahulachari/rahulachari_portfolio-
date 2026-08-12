@@ -589,4 +589,56 @@
     tick();
   }
 
+  /* ========================================================================
+     7. CIRCULAR TEXT LOGO (React Bits Port)
+     ======================================================================== */
+  function initCircularLogo() {
+    const container = document.getElementById('circular-logo');
+    if (!container || typeof gsap === 'undefined') return;
+
+    const text = "RAHUL * ACHARI * PORTFOLIO * ";
+    const spinDuration = 20;
+    const letters = Array.from(text);
+
+    // Create the spans for each letter
+    letters.forEach((letter, i) => {
+      const span = document.createElement('span');
+      span.innerText = letter === ' ' ? '\u00A0' : letter;
+      
+      const rotationDeg = (360 / letters.length) * i;
+      // 45px is half the 90px width of the container
+      const transform = `rotateZ(${rotationDeg}deg) translateY(-45px)`;
+      
+      span.style.transform = transform;
+      span.style.webkitTransform = transform;
+      container.appendChild(span);
+    });
+
+    // Create GSAP spinning animation
+    let tween = gsap.to(container, {
+      rotation: 360,
+      duration: spinDuration,
+      ease: 'none',
+      repeat: -1
+    });
+
+    // Handle hover speedUp variant
+    container.addEventListener('mouseenter', () => {
+      gsap.to(tween, { timeScale: 4, duration: 0.5, ease: 'power2.out' });
+      gsap.to(container, { scale: 1.1, duration: 0.5, ease: 'back.out(2)' });
+    });
+
+    container.addEventListener('mouseleave', () => {
+      gsap.to(tween, { timeScale: 1, duration: 0.5, ease: 'power2.out' });
+      gsap.to(container, { scale: 1, duration: 0.5, ease: 'power2.out' });
+    });
+  }
+  
+  // Initialize on load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCircularLogo);
+  } else {
+    initCircularLogo();
+  }
+
 })();

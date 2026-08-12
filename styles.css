@@ -2578,93 +2578,37 @@ button {
 }
 
 /* ==========================================================================
-   PREMIUM CIRCLE REVEAL LOGO
+   REACT BITS CIRCULAR TEXT LOGO
    ========================================================================== */
-.premium-circle-logo {
+.circular-text-logo {
   position: absolute;
-  top: 40px;
-  left: 40px;
-  width: 72px;
-  height: 72px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  z-index: 1000;
-  border-radius: 50%;
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  cursor: pointer;
-}
-
-.premium-circle-logo:hover {
-  transform: scale(1.08);
-}
-
-.logo-ring-outer {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: conic-gradient(from 0deg, rgba(255, 255, 255, 0.1), rgba(100, 100, 100, 0.8), rgba(255, 255, 255, 0.1));
-  mask-image: radial-gradient(transparent 62%, black 64%);
-  -webkit-mask-image: radial-gradient(transparent 62%, black 64%);
-  animation: spin 8s linear infinite;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-}
-
-.logo-ring-inner {
-  position: absolute;
-  inset: 5px;
-  border-radius: 50%;
-  background: conic-gradient(from 180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.1));
-  mask-image: radial-gradient(transparent 60%, black 62%);
-  -webkit-mask-image: radial-gradient(transparent 60%, black 62%);
-  animation: spin 12s linear infinite reverse;
-}
-
-.logo-text-ra {
-  position: relative;
+  top: 30px;
+  left: 30px;
+  width: 90px;
+  height: 90px;
   font-family: var(--font-heading);
   font-weight: 800;
-  font-size: 24px;
   color: var(--text-primary);
-  display: flex;
-  gap: 1px;
-  letter-spacing: -1px;
-  z-index: 2;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  cursor: pointer;
+  z-index: 1000;
+  transform-origin: center;
 }
 
-.premium-circle-logo:hover .logo-text-ra {
-  gap: 5px;
+.circular-text-logo span {
+  position: absolute;
+  display: inline-block;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  font-size: 11px;
+  text-transform: uppercase;
   letter-spacing: 1px;
 }
 
-.ra-letter {
-  display: inline-block;
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.premium-circle-logo:hover .ra-letter:first-child {
-  transform: translateX(-1px);
-}
-
-.premium-circle-logo:hover .ra-letter:last-child {
-  transform: translateX(1px);
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 @media (max-width: 992px) {
-  .premium-circle-logo {
+  .circular-text-logo {
     display: none !important;
   }
 }
