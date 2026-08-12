@@ -1546,6 +1546,18 @@ button {
     border-radius: 24px;
     scroll-snap-align: center;
     flex-shrink: 0;
+    /* Fix mobile rendering glitches during swipe */
+    will-change: auto;
+    transform: none;
+    backface-visibility: visible;
+    contain: none;
+  }
+
+  /* Reset hardware acceleration hacks on all child elements to prevent flickering/glitching images */
+  .hz-card-bg, .hz-card-overlay, .hz-card-content, .hz-card-title, .hz-card-desc, .hz-card-tools, .hz-tool-tag, .hz-card-actions, .hz-btn, .hz-btn-outline {
+    will-change: auto;
+    transform: none;
+    backface-visibility: visible;
   }
 
   .hz-card-overlay {
