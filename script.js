@@ -273,25 +273,30 @@
 
     if (!pinWrapper || !track) return;
 
-    const getScrollAmount = () => {
-      const trackWidth = track.scrollWidth;
-      const offset = window.innerWidth <= 768 ? 20 : window.innerWidth * 0.05;
-      return -(trackWidth - window.innerWidth + offset);
-    };
+    let mm = gsap.matchMedia();
+    
+    // Only apply GSAP horizontal pin scroll on desktop
+    mm.add("(min-width: 769px)", () => {
+      const getScrollAmount = () => {
+        const trackWidth = track.scrollWidth;
+        const offset = window.innerWidth * 0.05;
+        return -(trackWidth - window.innerWidth + offset);
+      };
 
-    gsap.to(track, {
-      x: getScrollAmount,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: pinWrapper,
-        start: 'top top',
-        end: () => `+=${track.scrollWidth - window.innerWidth}`,
-        pin: true,
-        scrub: true,
-        invalidateOnRefresh: true,
-        anticipatePin: 1,
-        fastScrollEnd: false
-      }
+      gsap.to(track, {
+        x: getScrollAmount,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: pinWrapper,
+          start: 'top top',
+          end: () => `+=${track.scrollWidth - window.innerWidth}`,
+          pin: true,
+          scrub: true,
+          invalidateOnRefresh: true,
+          anticipatePin: 1,
+          fastScrollEnd: false
+        }
+      });
     });
   }
 
@@ -342,25 +347,41 @@
     const mainTitle = document.getElementById('main-hero-title');
     if (!heroLine || !mainTitle) return;
 
-    // Split text into spans for staggered animation
+    // Split text into words then spans for staggered animation
     const text = heroLine.innerText;
     heroLine.innerHTML = '';
     
     // Set main title to visible if hidden
     mainTitle.style.opacity = '1';
 
-    for (let i = 0; i < text.length; i++) {
-      const span = document.createElement('span');
-      span.innerText = text[i] === ' ' ? '\u00A0' : text[i];
-      span.style.display = 'inline-block';
-      span.style.transform = 'translateY(100%)';
-      span.style.opacity = '0';
-      heroLine.appendChild(span);
-    }
+    const words = text.split(' ');
+    words.forEach((word, wIdx) => {
+      const wordSpan = document.createElement('span');
+      wordSpan.style.display = 'inline-block';
+      wordSpan.style.whiteSpace = 'nowrap';
+      
+      for (let i = 0; i < word.length; i++) {
+        const charSpan = document.createElement('span');
+        charSpan.innerText = word[i];
+        charSpan.style.display = 'inline-block';
+        charSpan.style.transform = 'translateY(100%)';
+        charSpan.style.opacity = '0';
+        wordSpan.appendChild(charSpan);
+      }
+      
+      heroLine.appendChild(wordSpan);
+      
+      if (wIdx < words.length - 1) {
+        const spaceSpan = document.createElement('span');
+        spaceSpan.innerHTML = '&nbsp;';
+        spaceSpan.style.display = 'inline-block';
+        heroLine.appendChild(spaceSpan);
+      }
+    });
 
     // Animate characters
     if (typeof gsap !== 'undefined') {
-      gsap.to('#hero-line-1 span', {
+      gsap.to('#hero-line-1 span span', {
         y: 0,
         opacity: 1,
         duration: 0.8,

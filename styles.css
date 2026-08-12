@@ -1518,11 +1518,34 @@ button {
     display: none;
   }
 
+  .hz-track-container {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding-bottom: 40px; /* For shadow */
+    scrollbar-width: none; /* Firefox */
+  }
+  .hz-track-container::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+
+  .hz-track {
+    padding-left: 20px;
+    padding-right: 20px;
+    gap: 20px;
+    /* Reset transform if GSAP left it */
+    transform: none !important;
+  }
+
   .hz-card {
     width: 86vw;
     height: auto;
     min-height: 520px;
     border-radius: 24px;
+    scroll-snap-align: center;
+    flex-shrink: 0;
   }
 
   .hz-card-overlay {
