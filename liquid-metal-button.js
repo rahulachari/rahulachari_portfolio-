@@ -170,8 +170,23 @@ class LiquidMetalBtn {
           liquidMetalFragmentShader,
           { ...UNIFORMS },
           undefined,
-          SPEED.idle
+          0 // Start paused
         );
+
+        // Performance Optimization: Only animate when visible in viewport
+        this.observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              if (!this.hovered) this.shader?.setSpeed?.(SPEED.idle);
+              else this.shader?.setSpeed?.(SPEED.hover);
+            } else {
+              this.shader?.setSpeed?.(0);
+            }
+          });
+        }, { rootMargin: '100px' });
+        
+        this.observer.observe(this.wrap);
+
       } catch (e) {
         console.warn('[LiquidMetal] Shader init failed:', e);
       }

@@ -856,7 +856,8 @@
         </div>
       </div>
       <div class="footer-brand-text">
-        <div class="container">
+        <div id="scanner-container" style="position: absolute; inset: 0; z-index: 0; pointer-events: none;"></div>
+        <div class="container" style="position: relative; z-index: 1;">
           <!-- Footer Crystal Glow Sparkle Button -->
           <div class="crystal-glow-wrapper footer-crystal-wrapper" data-scroll="fade-up">
             <a href="#" class="sparkle-button"
@@ -912,6 +913,21 @@
   <script src="scroll-stack.js"></script>
   <script src="script.js"></script>
   <script type="module" src="liquid-metal-button.js"></script>
+  <script type="module">
+    import Scanner from './scanner.js';
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById('scanner-container');
+      if (container) {
+        new Scanner(container, {
+          color1: '#5227FF',
+          color2: '#FF9FFC',
+          color3: '#FFFFFF',
+          mouseInteraction: true
+        });
+      }
+    });
+  </script>
   <!-- Import map for Three.js ES Modules -->
   <script type="importmap">
     {
