@@ -8,45 +8,169 @@
   'use strict';
 
   /* ========================================================================
-     1. PRELOADER
+     1. PRELOADER & SIGNATURE HERO DOCKING TRANSITION
      ======================================================================== */
   const preloader = document.getElementById('preloader');
-  const loaderCounter = document.getElementById('loader-counter');
   const siteWrapper = document.getElementById('site-wrapper');
+  const signatureContainer = document.getElementById('signature-loader-container');
+  const heroSignatureTarget = document.getElementById('hero-signature-target');
 
-  let loadProgress = 0;
-  const loadInterval = setInterval(() => {
-    // Slower increment at the beginning, faster at the end
-    let increment = Math.random() * 5 + 1;
-    if (loadProgress > 70) increment = Math.random() * 10 + 5;
-    
-    loadProgress += increment;
-    
-    if (loadProgress >= 100) loadProgress = 100;
-    
-    if (loaderCounter) loaderCounter.innerText = Math.floor(loadProgress);
-    
-    if (loadProgress >= 100) {
-      clearInterval(loadInterval);
-      setTimeout(() => {
-        if (preloader) preloader.classList.add('slide-up');
-        if (siteWrapper) siteWrapper.classList.add('visible');
-        
-        setTimeout(() => {
-          if (preloader) preloader.style.display = 'none';
-        }, 1000); // Wait for slide-up animation
+  let preloaderDismissed = false;
 
-        setTimeout(initScrollAnimations, 150);
-        setTimeout(initPillNav, 200);
-        setTimeout(initMarqueeScroll, 300);
-        
-        // Trigger hero staggered text animation
-        if (typeof window.playHeroAnimation === 'function') {
-           window.playHeroAnimation();
-        }
-      }, 300);
+  // Pre-render the signature SVG in the hero section immediately so layout is stable
+  function renderHeroSignature() {
+    if (!heroSignatureTarget) return;
+    if (heroSignatureTarget.querySelector('.signature-svg')) return;
+
+    if (typeof window.createSignatureSVG === 'function' && window.ComponentrySignature) {
+      const pathData = window.ComponentrySignature.DEFAULT_SIGNATURE_DATA;
+      if (pathData) {
+        heroSignatureTarget.innerHTML = '';
+        const res = window.createSignatureSVG({
+          paths: pathData.paths,
+          width: pathData.width,
+          height: pathData.height,
+          viewBox: pathData.viewBox,
+          fontSize: 21,
+          color: '#050505',
+          className: 'hero-docked-signature'
+        });
+        heroSignatureTarget.appendChild(res.svg);
+        heroSignatureTarget.style.opacity = '0';
+      }
     }
-  }, 40);
+  }
+
+  function triggerSiteReveal() {
+    if (triggerSiteReveal.done) return;
+    triggerSiteReveal.done = true;
+
+    if (typeof window.playHeroAnimation === 'function') {
+      window.playHeroAnimation();
+    }
+
+    setTimeout(() => {
+      if (typeof initScrollAnimations === 'function') initScrollAnimations();
+      if (typeof initPillNav === 'function') initPillNav();
+      if (typeof initMarqueeScroll === 'function') initMarqueeScroll();
+    }, 200);
+  }
+
+  function transitionSignatureToHero() {
+    if (preloaderDismissed) return;
+    preloaderDismissed = true;
+
+    // Ensure we start from top of viewport for exact alignment
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
+    // Make sure hero signature is ready in place
+    renderHeroSignature();
+
+    const preloaderSvg = signatureContainer ? signatureContainer.querySelector('.signature-svg') : null;
+    const heroSvg = heroSignatureTarget ? heroSignatureTarget.querySelector('.signature-svg') : null;
+
+    if (!preloaderSvg || !heroSvg || typeof gsap === 'undefined') {
+      // Fallback: simply show hero and hide preloader
+      if (heroSignatureTarget) heroSignatureTarget.style.opacity = '1';
+      if (siteWrapper) siteWrapper.classList.add('visible');
+      if (preloader) preloader.style.display = 'none';
+      triggerSiteReveal();
+      return;
+    }
+
+    // 1. Reveal site underneath so coordinates are calculated accurately
+    if (siteWrapper) {
+      siteWrapper.classList.add('visible');
+      siteWrapper.style.opacity = '1';
+    }
+
+    // 2. Measure starting and target coordinates
+    const startRect = preloaderSvg.getBoundingClientRect();
+    const targetRect = heroSvg.getBoundingClientRect();
+
+    const deltaX = (targetRect.left + targetRect.width / 2) - (startRect.left + startRect.width / 2);
+    const deltaY = (targetRect.top + targetRect.height / 2) - (startRect.top + startRect.height / 2);
+    const scale = targetRect.width / startRect.width;
+
+    // 3. Elevate preloader SVG above preloader background
+    gsap.set(preloaderSvg, {
+      position: 'relative',
+      zIndex: 10001,
+      transformOrigin: 'center center'
+    });
+
+    // 4. Smooth, hardware-accelerated glide UP into hero position
+    const tl = gsap.timeline({
+      onComplete: () => {
+        // Hero signature is already in DOM, make it permanently visible
+        heroSignatureTarget.style.opacity = '1';
+        if (preloader) preloader.style.display = 'none';
+
+        // Trigger hero subheadings smoothly
+        triggerSiteReveal();
+      }
+    });
+
+    // Fade preloader background away smoothly
+    tl.to(preloader, {
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power2.inOut'
+    }, 0);
+
+    // Glide UP from preloader center directly into hero position
+    tl.to(preloaderSvg, {
+      x: deltaX,
+      y: deltaY,
+      scale: scale,
+      duration: 0.9,
+      ease: 'power3.inOut'
+    }, 0);
+
+    // Crossfade hero signature in at the moment of landing
+    tl.to(heroSignatureTarget, {
+      opacity: 1,
+      duration: 0.15,
+      ease: 'none'
+    }, 0.75);
+  }
+
+  // Allow clicking anywhere to skip straight to hero docking
+  if (preloader) {
+    preloader.addEventListener('click', () => {
+      if (window.__sigTimeline) {
+        window.__sigTimeline.progress(1);
+      }
+      transitionSignatureToHero();
+    });
+  }
+
+  // Initialize Signature loading animation
+  function startSignatureLoader() {
+    renderHeroSignature();
+
+    if (typeof window.initSignature === 'function' && signatureContainer) {
+      window.initSignature({
+        container: signatureContainer,
+        text: "Rahul Achari YC",
+        color: "#050505",
+        fontSize: 21,
+        duration: 1.2,
+        delay: 0.2,
+        onComplete: () => {
+          setTimeout(transitionSignatureToHero, 250);
+        }
+      });
+    } else {
+      setTimeout(transitionSignatureToHero, 1000);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startSignatureLoader);
+  } else {
+    startSignatureLoader();
+  }
 
 
 
@@ -61,7 +185,8 @@
     const mobilePopover = document.getElementById('mobile-popover-menu');
     let isMenuOpen = false;
 
-    if (mobileBtn && mobilePopover) {
+    if (mobileBtn && mobilePopover && !mobileBtn.__bound) {
+      mobileBtn.__bound = true;
       mobileBtn.addEventListener('click', () => {
         isMenuOpen = !isMenuOpen;
         const lines = mobileBtn.querySelectorAll('.hamburger-line');
@@ -93,27 +218,29 @@
       });
     }
 
-    // 2. Desktop GSAP PillNav Hover Effects
-    const pills = document.querySelectorAll('.pill-list .pill');
+    // 2. Desktop GSAP PillNav Hover Effects (Silky Smooth React Bits Style)
+    const pills = Array.from(document.querySelectorAll('.pill-list .pill'));
     if (!pills.length || typeof gsap === 'undefined') return;
 
     const tlRefs = [];
     const activeTweenRefs = [];
-    const ease = 'power3.easeOut';
 
     function layout() {
       pills.forEach((pill, i) => {
         const circle = pill.querySelector('.hover-circle');
         const label = pill.querySelector('.pill-label');
-        const white = pill.querySelector('.pill-label-hover');
-        if (!circle || !label || !white) return;
+        const hoverLabel = pill.querySelector('.pill-label-hover');
+        if (!circle || !label || !hoverLabel) return;
 
         const rect = pill.getBoundingClientRect();
         const w = rect.width;
         const h = rect.height;
+        if (w === 0 || h === 0) return;
+
+        // Exact circular expansion geometry
         const R = ((w * w) / 4 + h * h) / (2 * h);
-        const D = Math.ceil(2 * R) + 2;
-        const delta = Math.ceil(R - Math.sqrt(Math.max(0, R * R - (w * w) / 4))) + 1;
+        const D = Math.ceil(2 * R) + 4;
+        const delta = Math.ceil(R - Math.sqrt(Math.max(0, R * R - (w * w) / 4))) + 2;
         const originY = D - delta;
 
         circle.style.width = `${D}px`;
@@ -123,62 +250,85 @@
         gsap.set(circle, {
           xPercent: -50,
           scale: 0,
-          transformOrigin: `50% ${originY}px`
+          transformOrigin: `50% ${originY}px`,
+          force3D: true
         });
 
-        gsap.set(label, { y: 0 });
-        gsap.set(white, { y: h + 12, opacity: 0 });
+        // Use matching roll distances for true parallel text flow
+        const rollDistance = Math.max(18, Math.round(h * 0.72));
+        gsap.set(label, { y: 0, opacity: 1, force3D: true });
+        gsap.set(hoverLabel, { y: rollDistance, opacity: 0, force3D: true });
 
         if (tlRefs[i]) tlRefs[i].kill();
 
+        // Linear timeline scrubbed smoothly by tweenTo
         const tl = gsap.timeline({ paused: true });
-        tl.to(circle, { scale: 1.2, xPercent: -50, duration: 2, ease, overwrite: 'auto' }, 0);
-        tl.to(label, { y: -(h + 8), duration: 2, ease, overwrite: 'auto' }, 0);
-
-        gsap.set(white, { y: Math.ceil(h + 100), opacity: 0 });
-        tl.to(white, { y: 0, opacity: 1, duration: 2, ease, overwrite: 'auto' }, 0);
+        tl.to(circle, { scale: 1.25, xPercent: -50, duration: 1, ease: 'none' }, 0);
+        tl.to(label, { y: -rollDistance, opacity: 0, duration: 1, ease: 'none' }, 0);
+        tl.to(hoverLabel, { y: 0, opacity: 1, duration: 1, ease: 'none' }, 0);
 
         tlRefs[i] = tl;
       });
     }
 
     layout();
-    window.addEventListener('resize', layout);
+    window.addEventListener('resize', layout, { passive: true });
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(layout).catch(() => { });
     }
 
-    // Expose handlers for HTML inline attributes
-    window.pillEnter = function (i) {
+    function enterPill(i) {
       const tl = tlRefs[i];
       if (!tl) return;
       if (activeTweenRefs[i]) activeTweenRefs[i].kill();
-      activeTweenRefs[i] = tl.tweenTo(tl.duration(), { duration: 0.3, ease, overwrite: 'auto' });
-    };
+      activeTweenRefs[i] = tl.tweenTo(tl.duration(), {
+        duration: 0.32,
+        ease: 'power2.out',
+        overwrite: 'auto'
+      });
+    }
 
-    window.pillLeave = function (i) {
+    function leavePill(i) {
       const tl = tlRefs[i];
       if (!tl) return;
       if (activeTweenRefs[i]) activeTweenRefs[i].kill();
-      activeTweenRefs[i] = tl.tweenTo(0, { duration: 0.2, ease, overwrite: 'auto' });
-    };
+      activeTweenRefs[i] = tl.tweenTo(0, {
+        duration: 0.25,
+        ease: 'power2.out',
+        overwrite: 'auto'
+      });
+    }
+
+    // Expose handlers for HTML inline attributes
+    window.pillEnter = enterPill;
+    window.pillLeave = leavePill;
+
+    // Attach listeners directly to pills for robust mouse tracking
+    pills.forEach((pill, i) => {
+      if (!pill.__hoverBound) {
+        pill.__hoverBound = true;
+        pill.addEventListener('mouseenter', () => enterPill(i));
+        pill.addEventListener('mouseleave', () => leavePill(i));
+      }
+    });
   }
+
   /* ========================================================================
      4. GSAP SCROLL ANIMATIONS & LENIS & SCROLLSTACK
      ======================================================================== */
   function initLenis() {
     if (typeof Lenis === 'undefined') return;
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.15,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      direction: 'vertical',
-      gestureDirection: 'vertical',
-      smooth: true,
-      mouseMultiplier: 1,
-      smoothTouch: false,
-      touchMultiplier: 2,
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.6,
       infinite: false,
     });
+    window.lenis = lenis;
 
     // Synchronize Lenis scrolling with GSAP's ScrollTrigger
     if (typeof ScrollTrigger !== 'undefined') {
@@ -195,6 +345,23 @@
       }
       requestAnimationFrame(raf);
     }
+
+    // Intercept internal anchor links for buttery smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (!href || href === '#') return;
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          lenis.scrollTo(target, {
+            offset: -35,
+            duration: 1.15,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+          });
+        }
+      });
+    });
   }
 
   function initScrollAnimations() {
@@ -257,152 +424,268 @@
       spideyObserver.observe(spideyEl);
     }
 
-    initHorizontalScroll();
+    // Initialize Extrafazant team section interactions
+    initTeamSectionInteractions();
   }
 
-  /* ========================================================================
-     4B. GSAP HORIZONTAL PIN SCROLL (Native Hardware Composited Pinning)
-     ======================================================================== */
-  function initHorizontalScroll() {
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-
-    gsap.registerPlugin(ScrollTrigger);
-
-    const pinWrapper = document.getElementById('hz-pin-wrapper');
-    const track = document.getElementById('hz-projects-track');
-
-    if (!pinWrapper || !track) return;
-
-    let mm = gsap.matchMedia();
-    
-    // Only apply GSAP horizontal pin scroll on desktop
-    mm.add("(min-width: 769px)", () => {
-      const getScrollAmount = () => {
-        const trackWidth = track.scrollWidth;
-        const offset = window.innerWidth * 0.05;
-        return -(trackWidth - window.innerWidth + offset);
-      };
-
-      gsap.to(track, {
-        x: getScrollAmount,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: pinWrapper,
-          start: 'top top',
-          end: () => `+=${track.scrollWidth - window.innerWidth}`,
-          pin: true,
-          scrub: true,
-          invalidateOnRefresh: true,
-          anticipatePin: 1,
-          fastScrollEnd: false
-        }
-      });
-    });
-  }
-
-  /* ========================================================================
-     5. HERO TYPING EFFECT
-     ======================================================================== */
-  const heroTyped = document.getElementById('hero-typed');
-  if (heroTyped) {
-    const phrases = [
-      'predictive ML models',
-      'autonomous AI agents',
-      'intelligent OCR tools',
-      'full-stack AI apps'
-    ];
-    let phraseIdx = 0, charIdx = 0, deleting = false, speed = 80;
-
-    function type() {
-      const current = phrases[phraseIdx];
-      if (deleting) {
-        heroTyped.textContent = current.substring(0, charIdx - 1);
-        charIdx--;
-        speed = 35;
-      } else {
-        heroTyped.textContent = current.substring(0, charIdx + 1);
-        charIdx++;
-        speed = 75;
-      }
-
-      if (!deleting && charIdx === current.length) {
-        deleting = true;
-        speed = 2800;
-      } else if (deleting && charIdx === 0) {
-        deleting = false;
-        phraseIdx = (phraseIdx + 1) % phrases.length;
-        speed = 500;
-      }
-
-      setTimeout(type, speed);
-    }
-    // Typing effect is now started by playHeroAnimation
-  }
-
-  /* ========================================================================
-     6. HERO STAGGERED ANIMATION (Jasmine Gunarto Style)
-     ======================================================================== */
-  window.playHeroAnimation = function() {
-    const heroLine = document.getElementById('hero-line-1');
-    const mainTitle = document.getElementById('main-hero-title');
-    if (!heroLine || !mainTitle) return;
-
-    // Split text into words then spans for staggered animation
-    const text = heroLine.innerText;
-    heroLine.innerHTML = '';
-    
-    // Set main title to visible if hidden
-    mainTitle.style.opacity = '1';
-
-    const words = text.split(' ');
+  function splitIntoChars(el) {
+    if (!el || el.querySelector('.hero-char')) return;
+    const text = el.innerText.trim();
+    el.innerHTML = '';
+    const words = text.split(/\s+/);
     words.forEach((word, wIdx) => {
       const wordSpan = document.createElement('span');
-      wordSpan.style.display = 'inline-block';
-      wordSpan.style.whiteSpace = 'nowrap';
-      
+      wordSpan.className = 'hero-word';
+
       for (let i = 0; i < word.length; i++) {
+        const charWrap = document.createElement('span');
+        charWrap.className = 'hero-char-wrap';
+
         const charSpan = document.createElement('span');
-        charSpan.innerText = word[i];
-        charSpan.style.display = 'inline-block';
-        charSpan.style.transform = 'translateY(100%)';
-        charSpan.style.opacity = '0';
-        wordSpan.appendChild(charSpan);
+        charSpan.className = 'hero-char';
+        charSpan.textContent = word[i];
+
+        charWrap.appendChild(charSpan);
+        wordSpan.appendChild(charWrap);
       }
-      
-      heroLine.appendChild(wordSpan);
-      
+
+      el.appendChild(wordSpan);
+
       if (wIdx < words.length - 1) {
-        const spaceSpan = document.createElement('span');
-        spaceSpan.innerHTML = '&nbsp;';
-        spaceSpan.style.display = 'inline-block';
-        heroLine.appendChild(spaceSpan);
+        const space = document.createTextNode(' ');
+        el.appendChild(space);
       }
     });
+  }
 
-    // Animate characters
+  /* ========================================================================
+     5. HERO TEXT EFFECT (Extrafazant Line Reveal & Variable Font Proximity Hover)
+     ======================================================================== */
+  function initExtrafazantHeroText() {
+    const mainTitle = document.getElementById('main-hero-title');
+    if (!mainTitle) return;
+
+    mainTitle.style.opacity = '1';
+
+    const line1 = mainTitle.querySelector('.hero-line-1');
+    const line2 = mainTitle.querySelector('.hero-line-2');
+    if (!line1 || !line2) return;
+
+    splitIntoChars(line1);
+    splitIntoChars(line2);
+
+    const allChars = mainTitle.querySelectorAll('.hero-char');
     if (typeof gsap !== 'undefined') {
-      gsap.to('#hero-line-1 span span', {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        stagger: 0.03,
-        ease: 'power4.out'
+      gsap.set(allChars, { yPercent: 135 });
+      gsap.to(allChars, {
+        yPercent: 0,
+        duration: 1.1,
+        ease: 'expo.out',
+        stagger: 0.015,
+        onComplete: () => {
+          gsap.set(mainTitle.querySelectorAll('.hero-char-wrap, .hero-word'), { overflow: 'visible' });
+          initFontWeightHover();
+        }
       });
-      
+
       // Animate buttons and header in
       gsap.fromTo('.hero-buttons', 
         { y: 30, opacity: 0 }, 
-        { y: 0, opacity: 1, duration: 1, delay: 0.8, ease: 'power3.out' }
+        { y: 0, opacity: 1, duration: 1, delay: 0.6, ease: 'power3.out' }
       );
       gsap.fromTo('.header', 
         { y: -30, opacity: 0 }, 
-        { y: 0, opacity: 1, duration: 1, delay: 1, ease: 'power3.out' }
+        { y: 0, opacity: 1, duration: 1, delay: 0.8, ease: 'power3.out' }
       );
     } else {
-      // Fallback if GSAP is not loaded
-      heroLine.innerText = text;
+      initFontWeightHover();
     }
+  }
+
+  function initFontWeightHover() {
+    const hoverElements = Array.from(document.querySelectorAll('[data-font-weight-hover]'));
+    if (!hoverElements.length || typeof gsap === 'undefined') return;
+
+    const charItems = [];
+    const mouse = { x: -9999, y: -9999 };
+    let hasMoved = false;
+
+    hoverElements.forEach(el => {
+      if (!el.querySelector('.hero-char')) {
+        splitIntoChars(el);
+      }
+      const chars = el.querySelectorAll('.hero-char');
+      if (!chars.length) return;
+
+      const rest = parseFloat(el.dataset.weightRest) || 700;
+      const near = parseFloat(el.dataset.weightNear) || 200;
+      const radius = parseFloat(el.dataset.radius) || 350;
+
+      chars.forEach(ch => {
+        ch.style.setProperty('--wght', rest);
+        ch.style.fontVariationSettings = `'wght' var(--wght)`;
+
+        const quickSet = gsap.quickTo(ch, '--wght', {
+          duration: 0.35,
+          ease: 'power2.out',
+          overwrite: 'auto'
+        });
+
+        charItems.push({
+          el: ch,
+          cx: 0,
+          cy: 0,
+          rest: rest,
+          near: near,
+          radius: radius,
+          last: rest,
+          lo: Math.min(rest, near),
+          hi: Math.max(rest, near),
+          setw: quickSet
+        });
+      });
+    });
+
+    if (!charItems.length) return;
+
+    let isHeroInView = true;
+    let needsTick = false;
+    const heroSection = document.getElementById('about') || document.querySelector('.hero');
+    if (heroSection && typeof IntersectionObserver !== 'undefined') {
+      const heroObserver = new IntersectionObserver(([entry]) => {
+        isHeroInView = entry.isIntersecting;
+        if (!isHeroInView) {
+          // Reset chars to rest weight when hero is scrolled out of view
+          for (let i = 0; i < charItems.length; i++) {
+            if (charItems[i].last !== charItems[i].rest) {
+              charItems[i].last = charItems[i].rest;
+              charItems[i].setw(charItems[i].rest);
+            }
+          }
+        }
+      }, { threshold: 0 });
+      heroObserver.observe(heroSection);
+    }
+
+    function updateCenters() {
+      for (let i = 0; i < charItems.length; i++) {
+        const rect = charItems[i].el.getBoundingClientRect();
+        charItems[i].cx = rect.left + rect.width / 2 + window.scrollX;
+        charItems[i].cy = rect.top + rect.height / 2 + window.scrollY;
+      }
+    }
+
+    updateCenters();
+    window.addEventListener('resize', updateCenters, { passive: true });
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(updateCenters).catch(() => {});
+    }
+
+    window.addEventListener('pointermove', (e) => {
+      if (!isHeroInView) return;
+      hasMoved = true;
+      needsTick = true;
+      mouse.x = e.pageX;
+      mouse.y = e.pageY;
+    }, { passive: true });
+
+    gsap.ticker.add(() => {
+      if (!hasMoved || !isHeroInView || !needsTick) return;
+      let anyChanged = false;
+      for (let i = 0; i < charItems.length; i++) {
+        const item = charItems[i];
+        const dist = Math.hypot(mouse.x - item.cx, mouse.y - item.cy);
+        const factor = dist >= item.radius ? 0 : 1 - dist / item.radius;
+        let targetWeight = item.rest + (item.near - item.rest) * factor;
+        targetWeight = Math.max(item.lo, Math.min(item.hi, targetWeight));
+
+        if (Math.abs(targetWeight - item.last) >= 1) {
+          item.last = targetWeight;
+          item.setw(targetWeight);
+          anyChanged = true;
+        }
+      }
+      if (!anyChanged) {
+        needsTick = false;
+      }
+    });
+  }
+
+  window.playHeroAnimation = function() {
+    if (window.__heroAnimationDone) return;
+    window.__heroAnimationDone = true;
+    initExtrafazantHeroText();
   };
+
+  /* ========================================================================
+     6. EXTRAFAZANT TEAM SECTION (Parallax & Momentum Hover)
+     ======================================================================== */
+  function initTeamSectionInteractions() {
+    if (typeof gsap === 'undefined') return;
+
+    // Scroll Parallax on Team Cards if ScrollTrigger available
+    if (typeof ScrollTrigger !== 'undefined') {
+      const teamSection = document.getElementById('projects');
+      const teamItems = document.querySelectorAll('.team_item[data-team-parallax-item]');
+
+      if (teamSection && teamItems.length) {
+        teamItems.forEach((item, idx) => {
+          const card = item.querySelector('.team_card');
+          if (!card) return;
+          const isOdd = idx % 2 === 1;
+          const yDist = isOdd ? 20 : -20;
+          gsap.fromTo(card, 
+            { y: -yDist },
+            {
+              y: yDist,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: item,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 1
+              }
+            }
+          );
+        });
+      }
+    }
+
+    // Momentum Tilt on Team Cards and Stickers
+    const momentumCards = document.querySelectorAll('[data-momentum-hover]');
+    momentumCards.forEach(card => {
+      let bounds;
+      
+      card.addEventListener('mouseenter', () => {
+        bounds = card.getBoundingClientRect();
+      });
+
+      card.addEventListener('mousemove', (e) => {
+        if (!bounds) bounds = card.getBoundingClientRect();
+        const x = e.clientX - bounds.left;
+        const y = e.clientY - bounds.top;
+        const xPercent = (x / bounds.width - 0.5) * 2;
+        const yPercent = (y / bounds.height - 0.5) * 2;
+
+        gsap.to(card, {
+          rotateY: xPercent * 6,
+          rotateX: -yPercent * 6,
+          duration: 0.5,
+          ease: 'power2.out',
+          transformPerspective: 800
+        });
+      });
+
+      card.addEventListener('mouseleave', () => {
+        gsap.to(card, {
+          rotateY: 0,
+          rotateX: 0,
+          duration: 0.8,
+          ease: 'power3.out'
+        });
+      });
+    });
+  }
 
   // Refresh ScrollTrigger when images load and window resizes
   window.addEventListener('load', () => {
@@ -438,6 +721,8 @@
     let position = 0;
     let lastScrollY = window.scrollY;
     let scrollTimeout;
+    let rafId = 0;
+    let isVisible = true;
     
     // Cache track width to prevent layout thrashing in rAF
     let cachedTrackWidth = marquee.scrollWidth / 3;
@@ -447,6 +732,7 @@
     }, { passive: true });
 
     window.addEventListener("scroll", () => {
+      if (!isVisible) return;
       let currentScrollY = window.scrollY;
       let delta = currentScrollY - lastScrollY;
       lastScrollY = currentScrollY;
@@ -460,33 +746,44 @@
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
         targetSpeed = baseSpeed;
-      }, 200);
+      }, 180);
     }, { passive: true });
 
     function tick() {
       currentSpeed += (targetSpeed - currentSpeed) * 0.08;
-
       position -= currentSpeed;
 
       let trackWidth = cachedTrackWidth;
-
-      // Guard against zero width (hidden element)
       if (trackWidth > 0) {
         if (position <= -trackWidth) {
           position += trackWidth;
         } else if (position >= 0) {
           position -= trackWidth;
         }
-        marquee.style.transform = `translateX(${position}px)`;
+        marquee.style.transform = `translate3d(${position.toFixed(2)}px, 0, 0)`;
       }
 
-      requestAnimationFrame(tick);
+      if (isVisible) {
+        rafId = requestAnimationFrame(tick);
+      }
     }
 
-    // Start with a small negative offset so the loop wraps correctly from the start
-    if (cachedTrackWidth > 0) position = -1;
+    // Observer to pause animation loop when marquee is offscreen
+    if (typeof IntersectionObserver !== 'undefined') {
+      const observer = new IntersectionObserver(([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && !rafId) {
+          rafId = requestAnimationFrame(tick);
+        } else if (!isVisible && rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = 0;
+        }
+      }, { threshold: 0 });
+      observer.observe(marquee.parentElement || marquee);
+    }
 
-    tick();
+    if (cachedTrackWidth > 0) position = -1;
+    rafId = requestAnimationFrame(tick);
   }
 
   /* ========================================================================

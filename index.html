@@ -10,20 +10,23 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=TASA+Explorer:wght@400;500;600;700;800&family=TASA+Orbiter:wght@400;500;600;700&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=TASA+Explorer:wght@400;500;600;700;800&family=TASA+Orbiter:wght@400;500;600;700&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="scroll-stack.css">
+
+  <!-- GSAP Animation Engine, Opentype & Componentry Signature -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/opentype.js@1.3.4/dist/opentype.min.js"></script>
+  <script src="signature.js"></script>
 </head>
 
 <body>
 
-  <!-- ===== PRELOADER ===== -->
-  <div class="preloader" id="preloader">
-    <div class="loader-counter-container">
-      <div id="loader-counter">0</div>
-    </div>
+  <!-- ===== PRELOADER (Componentry Signature) ===== -->
+  <div class="preloader" id="preloader" role="status" aria-label="Loading signature animation">
+    <div class="signature-loader-container" id="signature-loader-container"></div>
   </div>
 
   <!-- ===== SITE WRAPPER ===== -->
@@ -273,37 +276,11 @@
       <!-- HERO -->
       <section class="hero" id="hero">
         <div class="hero-content">
-          <!-- Crystal Glow Sparkle Button -->
-          <div class="crystal-glow-wrapper" data-scroll="fade-up" data-delay="0.05">
-            <a href="#" class="sparkle-button" id="crystal-glow-btn"
-              style="--font-size: 60px; --color: #1f1f1f; --shadow: #4285F4; --glare: rgba(255, 255, 255, 0.9);">
-              <svg viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z" />
-              </svg>
-              <svg viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z" />
-              </svg>
-              <svg viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z" />
-              </svg>
-              <svg viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z" />
-              </svg>
-              <svg viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z" />
-              </svg>
-              <span>Rahul Achari</span>
-              <span aria-hidden="true">Rahul Achari</span>
-            </a>
-          </div>
-          <h1 class="hero-title" id="main-hero-title">
-            <span class="hero-line-1" id="hero-line-1">Architecting intelligent AI systems &amp;</span>
-            <span class="hero-line-2 typed-line" id="hero-typed">predictive ML models</span>
+          <!-- Hero Signature Brand Name (Docked from Loading Page) -->
+          <div class="hero-signature-wrapper" id="hero-signature-target" aria-label="Rahul Achari YC"></div>
+          <h1 class="hero-title heading-xxl" id="main-hero-title">
+            <span class="hero-line hero-line-1" data-font-weight-hover data-weight-rest="700" data-weight-near="200" data-radius="400">Architecting intelligent AI systems &amp;</span>
+            <span class="hero-line hero-line-2 heading-alt" data-font-weight-hover data-weight-rest="300" data-weight-near="800" data-radius="400">predictive ML models</span>
           </h1>
           <div class="hero-buttons" data-scroll="fade-up" data-delay="0.25">
             <a href="#projects" class="btn btn-dark btn-hero">
@@ -385,232 +362,215 @@
         </div>
       </section>
 
-      <!-- PROJECTS (Horizontal Pin Scroll) -->
-      <section class="section section-projects-horizontal" id="projects">
-        <div class="hz-scroll-pin-wrapper" id="hz-pin-wrapper">
-          <div class="hz-header container">
-            <div class="hz-badge-wrapper">
-              <span class="hz-badge"><i class="fa-solid fa-layer-group"></i> Featured Projects</span>
-            </div>
-            <div class="hz-header-flex">
-              <h2 class="section-heading hz-heading">Featured AI Engineering Projects</h2>
-              <div class="hz-scroll-hint">
-                <span>Scroll to explore</span>
-                <i class="fa-solid fa-arrow-right-long"></i>
+      <!-- PROJECTS SECTION (Extrafazant Staggered Editorial Grid with Equal Gaps) -->
+      <section class="section section-team" id="projects">
+        <div class="team_wrapper">
+
+          <!-- Clean Section Title with Variable Font Hover Animation -->
+          <div class="team_title" data-scroll="fade-up">
+            <h2 class="heading-xxl projects-title" data-font-weight-hover data-weight-rest="700" data-weight-near="200" data-radius="400">
+              Projects
+            </h2>
+          </div>
+
+          <!-- Staggered 2-Column Editorial Grid with Equal Gaps -->
+          <div class="team_collection">
+            <div class="team_list" data-team-parallax>
+
+              <!-- Project 1: Control-D (Live + GitHub) -->
+              <div class="team_item" data-team-parallax-item data-momentum-hover>
+                <div class="team_card">
+                  <div class="team_img">
+                    <img src="assets/images/ContoL-D.jpg" alt="Control-D" class="image" loading="lazy" />
+                  </div>
+                  <div class="team_caption">
+                    <h3 class="team_name">Control-D</h3>
+                    <div class="team_role">
+                      <span class="team_tag">Health AI Assistant</span>
+                      <span class="team_tag_dot">•</span>
+                      <span class="team_tag">CNN &amp; Transformers</span>
+                    </div>
+                    <div class="team_links">
+                      <a href="https://controld-three.vercel.app/" target="_blank" rel="noopener noreferrer" class="team_project_link team_live_link">
+                        Live Demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                      </a>
+                      <a href="https://github.com/rahulachari/control-d" target="_blank" rel="noopener noreferrer" class="team_project_link">
+                        GitHub <i class="fa-brands fa-github"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
+
+              <!-- Project 2: UniML (Live + GitHub) -->
+              <div class="team_item" data-team-parallax-item data-momentum-hover>
+                <div class="team_card">
+                  <div class="team_img">
+                    <img src="assets/images/UnimL.jpg" alt="UniML" class="image" loading="lazy" />
+                  </div>
+                  <div class="team_caption">
+                    <h3 class="team_name">UniML</h3>
+                    <div class="team_role">
+                      <span class="team_tag">ATS Resume Screening</span>
+                      <span class="team_tag_dot">•</span>
+                      <span class="team_tag">OpenCV &amp; Tesseract</span>
+                    </div>
+                    <div class="team_links">
+                      <a href="https://uniml.onrender.com/" target="_blank" rel="noopener noreferrer" class="team_project_link team_live_link">
+                        Live Demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                      </a>
+                      <a href="https://github.com/rahulachari/UniML" target="_blank" rel="noopener noreferrer" class="team_project_link">
+                        GitHub <i class="fa-brands fa-github"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project 3: PropCast (Live + GitHub) -->
+              <div class="team_item" data-team-parallax-item data-momentum-hover>
+                <div class="team_card">
+                  <div class="team_img">
+                    <img src="assets/images/propcast.jpg" alt="PropCast" class="image" loading="lazy" />
+                  </div>
+                  <div class="team_caption">
+                    <h3 class="team_name">PropCast</h3>
+                    <div class="team_role">
+                      <span class="team_tag">Real Estate AI Forecast</span>
+                      <span class="team_tag_dot">•</span>
+                      <span class="team_tag">92% R² Gradient Boosting</span>
+                    </div>
+                    <div class="team_links">
+                      <a href="https://propcast-oyan.onrender.com/" target="_blank" rel="noopener noreferrer" class="team_project_link team_live_link">
+                        Live Demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                      </a>
+                      <a href="https://github.com/rahulachari/PropCast" target="_blank" rel="noopener noreferrer" class="team_project_link">
+                        GitHub <i class="fa-brands fa-github"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project 4: Adhikar (Live + GitHub) -->
+              <div class="team_item" data-team-parallax-item data-momentum-hover>
+                <div class="team_card">
+                  <div class="team_img">
+                    <img src="assets/images/Adhikar.jpg" alt="Adhikar" class="image" loading="lazy" />
+                  </div>
+                  <div class="team_caption">
+                    <h3 class="team_name">Adhikar</h3>
+                    <div class="team_role">
+                      <span class="team_tag">AI Land Document Intelligence</span>
+                      <span class="team_tag_dot">•</span>
+                      <span class="team_tag">OCR &amp; Legal Deeds</span>
+                    </div>
+                    <div class="team_links">
+                      <a href="https://adhikar-azure.vercel.app/" target="_blank" rel="noopener noreferrer" class="team_project_link team_live_link">
+                        Live Demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                      </a>
+                      <a href="https://github.com/rahulachari/Adhikar-LandDocAI-" target="_blank" rel="noopener noreferrer" class="team_project_link">
+                        GitHub <i class="fa-brands fa-github"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project 5: Precast Walls AI (Live + GitHub) -->
+              <div class="team_item" data-team-parallax-item data-momentum-hover>
+                <div class="team_card">
+                  <div class="team_img">
+                    <img src="assets/images/precast walls.jpg" alt="Precast Walls Defect Detection" class="image" loading="lazy" />
+                  </div>
+                  <div class="team_caption">
+                    <h3 class="team_name">Precast Walls AI</h3>
+                    <div class="team_role">
+                      <span class="team_tag">Computer Vision Detection</span>
+                      <span class="team_tag_dot">•</span>
+                      <span class="team_tag">Concrete Crack Inspection</span>
+                    </div>
+                    <div class="team_links">
+                      <a href="https://glittery-selkie-dcfb25.netlify.app/" target="_blank" rel="noopener noreferrer" class="team_project_link team_live_link">
+                        Live Demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                      </a>
+                      <a href="https://github.com/rahulachari/Precast-Wall-Crack-Detection" target="_blank" rel="noopener noreferrer" class="team_project_link">
+                        GitHub <i class="fa-brands fa-github"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project 6: VoiceOS (GitHub ONLY — No Live Demo per instruction) -->
+              <div class="team_item" data-team-parallax-item data-momentum-hover>
+                <div class="team_card">
+                  <div class="team_img">
+                    <img src="assets/images/VoiceOS.jpg" alt="VoiceOS" class="image" loading="lazy" />
+                  </div>
+                  <div class="team_caption">
+                    <h3 class="team_name">VoiceOS</h3>
+                    <div class="team_role">
+                      <span class="team_tag">Speech-to-Speech LLM</span>
+                      <span class="team_tag_dot">•</span>
+                      <span class="team_tag">Whisper &amp; Kokoro TTS</span>
+                    </div>
+                    <div class="team_links">
+                      <a href="https://github.com/rahulachari/MAXI_VOICE-AGENT" target="_blank" rel="noopener noreferrer" class="team_project_link">
+                        GitHub <i class="fa-brands fa-github"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project 7: Beat Sync (GitHub ONLY — No Live Demo per instruction) -->
+              <div class="team_item" data-team-parallax-item data-momentum-hover>
+                <div class="team_card">
+                  <div class="team_img">
+                    <img src="assets/images/Beat-sync.jpg" alt="Beat Sync" class="image" loading="lazy" />
+                  </div>
+                  <div class="team_caption">
+                    <h3 class="team_name">Beat Sync</h3>
+                    <div class="team_role">
+                      <span class="team_tag">Multi-Device Audio Sync</span>
+                      <span class="team_tag_dot">•</span>
+                      <span class="team_tag">Real-Time Networking</span>
+                    </div>
+                    <div class="team_links">
+                      <a href="https://github.com/rahulachari/Beat-sync-" target="_blank" rel="noopener noreferrer" class="team_project_link">
+                        GitHub <i class="fa-brands fa-github"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project 8: Reminder Remix (GitHub ONLY — No Live Demo per instruction) -->
+              <div class="team_item" data-team-parallax-item data-momentum-hover>
+                <div class="team_card">
+                  <div class="team_img">
+                    <img src="assets/images/reminder remix.jpg" alt="Reminder Remix" class="image" loading="lazy" />
+                  </div>
+                  <div class="team_caption">
+                    <h3 class="team_name">Reminder Remix</h3>
+                    <div class="team_role">
+                      <span class="team_tag">Desktop Automation</span>
+                      <span class="team_tag_dot">•</span>
+                      <span class="team_tag">OpenCV &amp; Pygame</span>
+                    </div>
+                    <div class="team_links">
+                      <a href="https://github.com/rahulachari/Reminder-Remix" target="_blank" rel="noopener noreferrer" class="team_project_link">
+                        GitHub <i class="fa-brands fa-github"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
 
-          <div class="hz-track-container">
-            <div class="hz-track" id="hz-projects-track">
-              
-              <!-- CARD 1: PropCast -->
-              <div class="hz-card">
-                <div class="hz-card-bg" style="background-image: url('assets/images/propcast.jpg'); --bg-pos: center top;"></div>
-                <div class="hz-card-overlay"></div>
-                <div class="hz-card-content">
-                  <h3 class="hz-card-title">PropCast</h3>
-                  <p class="hz-card-desc">
-                    AI-powered real estate forecasting platform achieving 92% R² accuracy using Gradient Boosting, integrated with Groq LLaMA for natural language market insights, Plotly dashboards, and property comparison tools.
-                  </p>
-                  <div class="hz-card-tools">
-                    <span class="hz-tool-tag">Python</span>
-                    <span class="hz-tool-tag">Django</span>
-                    <span class="hz-tool-tag">Scikit-learn</span>
-                    <span class="hz-tool-tag">Groq LLaMA</span>
-                    <span class="hz-tool-tag">Docker</span>
-                  </div>
-                  <div class="hz-card-actions">
-                    <a href="https://propcast-oyan.onrender.com/" target="_blank" rel="noopener noreferrer" class="hz-btn">
-                      Live Demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </a>
-                    <a href="https://github.com/rahulachari/PropCast" target="_blank" rel="noopener noreferrer" class="hz-btn-outline">
-                      GitHub <i class="fa-brands fa-github"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <!-- CARD 2: UniML -->
-              <div class="hz-card">
-                <div class="hz-card-bg" style="background-image: url('assets/images/UnimL.jpg'); --bg-pos: center top;"></div>
-                <div class="hz-card-overlay"></div>
-                <div class="hz-card-content">
-                  <h3 class="hz-card-title">UniML</h3>
-                  <p class="hz-card-desc">
-                    Multi-domain ML web application covering Banking, Education, Loan, and Healthcare prediction modules. Features an OCR-powered ATS resume scorer using OpenCV + Tesseract and Random Forest classification.
-                  </p>
-                  <div class="hz-card-tools">
-                    <span class="hz-tool-tag">Flask</span>
-                    <span class="hz-tool-tag">SQLite</span>
-                    <span class="hz-tool-tag">OpenCV</span>
-                    <span class="hz-tool-tag">Tesseract OCR</span>
-                    <span class="hz-tool-tag">Random Forest</span>
-                  </div>
-                  <div class="hz-card-actions">
-                    <a href="https://uniml.onrender.com/" target="_blank" rel="noopener noreferrer" class="hz-btn">
-                      Live Demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </a>
-                    <a href="https://github.com/rahulachari/UniML" target="_blank" rel="noopener noreferrer" class="hz-btn-outline">
-                      GitHub <i class="fa-brands fa-github"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <!-- CARD 3: Control-D -->
-              <div class="hz-card">
-                <div class="hz-card-bg" style="background-image: url('assets/images/ContoL-D.jpg'); --bg-pos: center top;"></div>
-                <div class="hz-card-overlay"></div>
-                <div class="hz-card-content">
-                  <h3 class="hz-card-title">Control-D</h3>
-                  <p class="hz-card-desc">
-                    Unified digital health assistant with adaptive recommendation engine adjusting nutrition and workout plans by real-time glucose and BMI parameters. Features AI wellness chat and Supabase real-time sync.
-                  </p>
-                  <div class="hz-card-tools">
-                    <span class="hz-tool-tag">React</span>
-                    <span class="hz-tool-tag">TypeScript</span>
-                    <span class="hz-tool-tag">Tailwind CSS</span>
-                    <span class="hz-tool-tag">Supabase</span>
-                    <span class="hz-tool-tag">AI Chat</span>
-                  </div>
-                  <div class="hz-card-actions">
-                    <a href="https://controld-three.vercel.app/" target="_blank" rel="noopener noreferrer" class="hz-btn">
-                      Live Demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </a>
-                    <a href="https://github.com/rahulachari/Control-D" target="_blank" rel="noopener noreferrer" class="hz-btn-outline">
-                      GitHub <i class="fa-brands fa-github"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <!-- CARD 4: Adhikar -->
-              <div class="hz-card">
-                <div class="hz-card-bg" style="background-image: url('assets/images/Adhikar.jpg'); --bg-pos: center 30%;"></div>
-                <div class="hz-card-overlay"></div>
-                <div class="hz-card-content">
-                  <h3 class="hz-card-title">Adhikar</h3>
-                  <p class="hz-card-desc">
-                    AI-powered land document intelligence platform designed to extract, analyze, and verify legal deeds and land records effortlessly using machine learning models and OCR analysis.
-                  </p>
-                  <div class="hz-card-tools">
-                    <span class="hz-tool-tag">Python</span>
-                    <span class="hz-tool-tag">Machine Learning</span>
-                    <span class="hz-tool-tag">Document AI</span>
-                    <span class="hz-tool-tag">OCR</span>
-                    <span class="hz-tool-tag">Vercel</span>
-                  </div>
-                  <div class="hz-card-actions">
-                    <a href="https://adhikar-azure.vercel.app/" target="_blank" rel="noopener noreferrer" class="hz-btn">
-                      Live Demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </a>
-                    <a href="https://github.com/rahulachari/Adhikar-LandDocAI-" target="_blank" rel="noopener noreferrer" class="hz-btn-outline">
-                      GitHub <i class="fa-brands fa-github"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <!-- CARD 5: Precast Walls -->
-              <div class="hz-card">
-                <div class="hz-card-bg" style="background-image: url('assets/images/precast walls.jpg'); --bg-pos: center center;"></div>
-                <div class="hz-card-overlay"></div>
-                <div class="hz-card-content">
-                  <h3 class="hz-card-title">Precast Walls</h3>
-                  <p class="hz-card-desc">
-                    Single-page production website for a precast compound wall manufacturer — featuring interactive 3D Canvas wall builder, smart project cost estimator, and interactive product showcase.
-                  </p>
-                  <div class="hz-card-tools">
-                    <span class="hz-tool-tag">HTML5</span>
-                    <span class="hz-tool-tag">CSS3</span>
-                    <span class="hz-tool-tag">JavaScript</span>
-                    <span class="hz-tool-tag">Canvas API</span>
-                    <span class="hz-tool-tag">Netlify</span>
-                  </div>
-                  <div class="hz-card-actions">
-                    <a href="https://glittery-selkie-dcfb25.netlify.app/" target="_blank" rel="noopener noreferrer" class="hz-btn">
-                      Live Demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </a>
-                    <a href="https://github.com/rahulachari/WallCraft_Precast-Walls" target="_blank" rel="noopener noreferrer" class="hz-btn-outline">
-                      GitHub <i class="fa-brands fa-github"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- MORE REPOSITORIES & PROJECTS SECTION -->
-      <section class="section section-more-projects" id="more-projects">
-        <div class="container">
-          <div class="section-intro" data-scroll="fade-up">
-            <h2 class="section-heading">All Repositories &amp; Featured Builds</h2>
-            <p class="section-subheading">Additional desktop applications, network audio tools, and production utility tools.</p>
-          </div>
-
-          <div class="more-projects-grid">
-
-            <!-- Beat Sync -->
-            <div class="project-card has-bg" data-scroll="fade-up" data-delay="0.0">
-              <div class="project-card-bg" style="background-image: url('assets/images/Beat-sync.jpg');"></div>
-              <div class="project-card-overlay"></div>
-              <div>
-                <div class="project-card-header">
-                  <div class="project-card-icon"><i class="fa-solid fa-music"></i></div>
-                </div>
-                <h3 class="project-card-title">Beat Sync</h3>
-                <p class="project-card-desc">
-                  Real-time synchronized music playback across multiple devices on a local network. Server-authoritative
-                  timestamp model keeps all clients locked in perfect harmony.
-                </p>
-                <div class="project-card-tags">
-                  <span class="meta-tag">Python</span>
-                  <span class="meta-tag">Flask</span>
-                  <span class="meta-tag">HTML5 Audio</span>
-                  <span class="meta-tag">JavaScript</span>
-                </div>
-              </div>
-              <div class="project-card-footer">
-                <a href="https://github.com/rahulachari/Beat-sync-" target="_blank" rel="noopener noreferrer"
-                  class="btn btn-outline btn-sm">
-                  GitHub <i class="fa-brands fa-github"></i>
-                </a>
-              </div>
-            </div>
-
-            <!-- Reminder Remix -->
-            <div class="project-card has-bg" data-scroll="fade-up" data-delay="0.08">
-              <div class="project-card-bg" style="background-image: url('assets/images/reminder remix.jpg');"></div>
-              <div class="project-card-overlay"></div>
-              <div>
-                <div class="project-card-header">
-                  <div class="project-card-icon"><i class="fa-solid fa-bell"></i></div>
-                </div>
-                <h3 class="project-card-title">Reminder Remix</h3>
-                <p class="project-card-desc">
-                  Desktop reminder app with live countdowns, OpenCV video backgrounds, and custom Pygame audio alerts —
-                  fully customizable with your own media files.
-                </p>
-                <div class="project-card-tags">
-                  <span class="meta-tag">Python</span>
-                  <span class="meta-tag">Tkinter</span>
-                  <span class="meta-tag">OpenCV</span>
-                  <span class="meta-tag">Pygame</span>
-                </div>
-              </div>
-              <div class="project-card-footer">
-                <a href="https://github.com/rahulachari/Reminder-Remix" target="_blank" rel="noopener noreferrer"
-                  class="btn btn-outline btn-sm">
-                  GitHub <i class="fa-brands fa-github"></i>
-                </a>
-              </div>
-            </div>
-
-          </div>
         </div>
       </section>
 
@@ -900,18 +860,15 @@
     </footer>
   </div>
 
-  <!-- GSAP Animation Library for React Bits PillNav & ScrollTrigger -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <!-- GSAP ScrollTrigger -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-
-  <!-- Three.js for Mesh Gradient Shader -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
   <!-- Lenis Smooth Scroll -->
   <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
   
   <script src="scroll-stack.js"></script>
   <script src="script.js"></script>
+  <script src="cursor-image-trail.js"></script>
   <script type="module" src="liquid-metal-button.js"></script>
   <script type="module">
     import Scanner from './scanner.js';
@@ -924,15 +881,6 @@
         color3: '#FFFFFF',
         mouseInteraction: true
       });
-    }
-  </script>
-  <!-- Import map for Three.js ES Modules -->
-  <script type="importmap">
-    {
-      "imports": {
-        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-      }
     }
   </script>
 

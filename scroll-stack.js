@@ -34,7 +34,7 @@ class ScrollStackManager {
       if (i < this.cards.length - 1) {
         card.style.marginBottom = `${this.itemDistance}px`;
       }
-      card.style.willChange = 'transform, filter';
+      card.style.willChange = 'transform';
       card.style.transformOrigin = 'top center';
       card.style.backfaceVisibility = 'hidden';
       card.style.transform = 'translateZ(0)';
@@ -50,10 +50,15 @@ class ScrollStackManager {
         card.style.transform = 'none';
       });
       this.calculateLayout();
+      this.lastScrollTop = -999999;
       this.updateCardTransforms();
-    });
+    }, { passive: true });
 
+    let lastScrollTop = -999999;
     const tick = () => {
+      const currentScrollTop = window.scrollY;
+      if (Math.abs(currentScrollTop - lastScrollTop) < 0.2) return;
+      lastScrollTop = currentScrollTop;
       this.updateCardTransforms();
     };
 
