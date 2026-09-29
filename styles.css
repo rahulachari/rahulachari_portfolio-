@@ -587,70 +587,81 @@ button {
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  /* Force strict border-radius clipping during transforms */
-  -webkit-mask-image: -webkit-radial-gradient(white, black);
-  mask-image: radial-gradient(white, black);
   isolation: isolate;
   transition: box-shadow 0.25s ease, background-color 0.25s ease;
 }
 
+/* Hover background fill: perfectly fits inside pill, zero overflow */
 .pill .hover-circle {
   position: absolute;
-  left: 50%;
-  bottom: 0;
-  border-radius: 50%;
+  inset: 0;
+  border-radius: 9999px;
   background: var(--base);
   z-index: 1;
-  display: block;
   pointer-events: none;
-  will-change: transform;
-  transform: translateZ(0);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+}
+
+.pill:hover .hover-circle {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .pill .label-stack {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   line-height: 1;
   z-index: 2;
   pointer-events: none;
+  overflow: hidden;
+  height: 1.25em;
 }
 
 .pill .pill-label {
-  position: relative;
-  z-index: 2;
-  display: inline-block;
-  line-height: 1;
-  will-change: transform, opacity;
-  transform: translateZ(0);
+  display: block;
+  line-height: 1.25em;
+  color: var(--pill-text);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.pill:hover .pill-label {
+  transform: translateY(-110%);
+  opacity: 0;
 }
 
 .pill .pill-label-hover {
   position: absolute;
-  left: 0;
   top: 0;
+  left: 0;
   width: 100%;
+  text-align: center;
+  display: block;
+  line-height: 1.25em;
   color: #ffffff;
-  z-index: 3;
-  display: inline-block;
-  will-change: transform, opacity;
-  transform: translateZ(0);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  transform: translateY(110%);
+  opacity: 0;
+  pointer-events: none;
 }
 
-.pill.is-active::after {
-  content: '';
-  position: absolute;
-  bottom: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 12px;
-  height: 12px;
-  background: var(--base);
-  border-radius: 50px;
-  z-index: 4;
+.pill:hover .pill-label-hover {
+  transform: translateY(0);
+  opacity: 1;
 }
 
+/* Resume Pill: Dark pill by default with white hover fill */
 .pill-resume {
   background: #111111;
+  color: #ffffff;
+}
+
+.pill-resume .pill-label {
   color: #ffffff;
 }
 
