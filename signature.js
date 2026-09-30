@@ -205,14 +205,14 @@
     options = options || {};
     var maskPaths = options.maskPaths || [];
     var strokePaths = options.strokePaths || [];
-    var duration = options.duration !== undefined ? options.duration : 1.2;
+    var duration = options.duration !== undefined ? options.duration : 0.85;
     var delay = options.delay !== undefined ? options.delay : 0;
     var onComplete = options.onComplete;
 
     var gsapLib = (typeof window !== 'undefined' && window.gsap) ? window.gsap : null;
     if (!gsapLib) {
       if (typeof onComplete === 'function') {
-        setTimeout(onComplete, (delay + maskPaths.length * 0.2 + duration) * 1000);
+        setTimeout(onComplete, (delay + maskPaths.length * 0.085 + duration) * 1000);
       }
       return null;
     }
@@ -245,7 +245,7 @@
         opacity: 0
       });
 
-      var charStart = delay + i * 0.2;
+      var charStart = delay + i * 0.085;
 
       // Opacity reveal at delay + 0.01
       tl.to([maskP, strokeP], {

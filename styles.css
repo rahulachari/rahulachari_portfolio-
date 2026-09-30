@@ -1575,6 +1575,101 @@ button {
 }
 
 /* =========================================================================
+   PROJECT SIDE STICKERS (Tactile Editorial Badges for Key Projects)
+   ========================================================================= */
+.team-sticker {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 13px;
+  border-radius: 999px;
+  background: rgba(14, 18, 26, 0.86);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 0.74rem;
+  letter-spacing: 0.02em;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.32), 0 2px 6px rgba(0, 0, 0, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  pointer-events: auto;
+  user-select: none;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+  will-change: transform;
+}
+
+.team-sticker::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  border-radius: 999px 999px 0 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+}
+
+.team_item:nth-child(odd) .team-sticker {
+  transform: rotate(-2.5deg);
+}
+
+.team_item:nth-child(even) .team-sticker {
+  transform: rotate(2.5deg);
+}
+
+.team_card:hover .team-sticker {
+  transform: rotate(0deg) scale(1.06) translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45), 0 4px 12px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.team-sticker .sticker-star {
+  font-size: 0.8rem;
+  line-height: 1;
+  display: inline-block;
+  filter: drop-shadow(0 0 5px currentColor);
+}
+
+.team-sticker .sticker-text {
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.team-sticker .sticker-sep {
+  opacity: 0.4;
+  font-size: 0.68rem;
+}
+
+.team-sticker .sticker-sub {
+  font-weight: 500;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.88);
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .team-sticker {
+    top: 10px;
+    right: 10px;
+    padding: 4px 10px;
+    font-size: 0.68rem;
+    gap: 5px;
+  }
+  .team-sticker .sticker-sub {
+    font-size: 0.66rem;
+  }
+}
+
+
+/* =========================================================================
    FEATURE ROWS (Projects)
    ========================================================================= */
 .feature-row {

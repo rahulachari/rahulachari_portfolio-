@@ -28,6 +28,16 @@
       githubUrl: "https://github.com/rahulachari/PropCast"
     },
     {
+      id: "akshara",
+      title: "Akshara",
+      src: "assets/images/Akshara.jpg",
+      aspect: 16 / 10,
+      description: "Visionary architectural plotted land developments and masterplans featuring subterranean infrastructure, wide asphalt avenues, DTCP & RERA clarity, and full-stack interactive client web experience.",
+      tags: ["React", "TypeScript", "Tailwind CSS", "Architecture", "Masterplans", "Vercel"],
+      liveUrl: "https://akshara-three.vercel.app/",
+      githubUrl: "https://github.com/rahulachari/Akshara"
+    },
+    {
       id: "gscms",
       title: "GSCMS",
       src: "assets/images/GSCMS.jpg",

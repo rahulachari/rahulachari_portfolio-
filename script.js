@@ -45,7 +45,9 @@
     if (triggerSiteReveal.done) return;
     triggerSiteReveal.done = true;
 
-    if (typeof window.playHeroAnimation === 'function') {
+    if (typeof playHeroAnimation === 'function') {
+      playHeroAnimation();
+    } else if (typeof window.playHeroAnimation === 'function') {
       window.playHeroAnimation();
     }
 
@@ -53,7 +55,7 @@
       if (typeof initScrollAnimations === 'function') initScrollAnimations();
       if (typeof initPillNav === 'function') initPillNav();
       if (typeof initMarqueeScroll === 'function') initMarqueeScroll();
-    }, 200);
+    }, 150);
   }
 
   function transitionSignatureToHero() {
@@ -147,6 +149,9 @@
 
   // Initialize Signature loading animation
   function startSignatureLoader() {
+    if (startSignatureLoader.started) return;
+    startSignatureLoader.started = true;
+
     renderHeroSignature();
 
     if (typeof window.initSignature === 'function' && signatureContainer) {
@@ -155,14 +160,14 @@
         text: "Rahul Achari YC",
         color: "#050505",
         fontSize: 21,
-        duration: 1.2,
-        delay: 0.2,
+        duration: 0.85,
+        delay: 0.1,
         onComplete: () => {
-          setTimeout(transitionSignatureToHero, 250);
+          setTimeout(transitionSignatureToHero, 150);
         }
       });
     } else {
-      setTimeout(transitionSignatureToHero, 1000);
+      setTimeout(transitionSignatureToHero, 600);
     }
   }
 
@@ -294,7 +299,8 @@
       });
     }
 
-    const els = document.querySelectorAll('[data-scroll]');
+    // Exclude any elements in #hero to prevent conflicting double-reveal animations
+    const els = document.querySelectorAll('[data-scroll]:not(#hero [data-scroll])');
 
     els.forEach(el => {
       const delay = parseFloat(el.dataset.delay || 0);
@@ -372,6 +378,9 @@
      5. HERO TEXT EFFECT (Extrafazant Line Reveal & Variable Font Proximity Hover)
      ======================================================================== */
   function initExtrafazantHeroText() {
+    if (initExtrafazantHeroText.done) return;
+    initExtrafazantHeroText.done = true;
+
     const mainTitle = document.getElementById('main-hero-title');
     if (!mainTitle) return;
 
@@ -389,23 +398,23 @@
       gsap.set(allChars, { yPercent: 135 });
       gsap.to(allChars, {
         yPercent: 0,
-        duration: 1.1,
+        duration: 0.9,
         ease: 'expo.out',
-        stagger: 0.015,
+        stagger: 0.012,
         onComplete: () => {
           gsap.set(mainTitle.querySelectorAll('.hero-char-wrap, .hero-word'), { overflow: 'visible' });
           initFontWeightHover();
         }
       });
 
-      // Animate buttons and header in
+      // Animate buttons and header in together once and for all
       gsap.fromTo('.hero-buttons', 
-        { y: 30, opacity: 0 }, 
-        { y: 0, opacity: 1, duration: 1, delay: 0.6, ease: 'power3.out' }
+        { y: 20, opacity: 0 }, 
+        { y: 0, opacity: 1, duration: 0.7, delay: 0.35, ease: 'power3.out' }
       );
       gsap.fromTo('.header', 
-        { y: -30, opacity: 0 }, 
-        { y: 0, opacity: 1, duration: 1, delay: 0.8, ease: 'power3.out' }
+        { y: -20, opacity: 0 }, 
+        { y: 0, opacity: 1, duration: 0.7, delay: 0.45, ease: 'power3.out' }
       );
     } else {
       initFontWeightHover();
@@ -460,7 +469,7 @@
 
     let isHeroInView = true;
     let needsTick = false;
-    const heroSection = document.getElementById('about') || document.querySelector('.hero');
+    const heroSection = document.getElementById('hero') || document.querySelector('.hero');
     if (heroSection && typeof IntersectionObserver !== 'undefined') {
       const heroObserver = new IntersectionObserver(([entry]) => {
         isHeroInView = entry.isIntersecting;
@@ -521,11 +530,12 @@
     });
   }
 
-  window.playHeroAnimation = function() {
+  function playHeroAnimation() {
     if (window.__heroAnimationDone) return;
     window.__heroAnimationDone = true;
     initExtrafazantHeroText();
-  };
+  }
+  window.playHeroAnimation = playHeroAnimation;
 
   /* ========================================================================
      6. EXTRAFAZANT TEAM SECTION (Parallax & Momentum Hover)

@@ -9,6 +9,11 @@
 
   const TRAIL_PROJECTS = [
     {
+      title: "Akshara",
+      icon: "fa-solid fa-compass-drafting",
+      image: "assets/images/Akshara.jpg"
+    },
+    {
       title: "Control-D",
       icon: "fa-solid fa-heart-pulse",
       image: "assets/images/ContoL-D.jpg"

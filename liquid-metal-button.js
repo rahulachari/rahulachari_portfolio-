@@ -314,6 +314,8 @@ function initAllLiquidMetalButtons() {
   if (buttons.length === 0) return;
 
   buttons.forEach((btn) => {
+    if (btn.__liquidMetalApplied) return;
+    btn.__liquidMetalApplied = true;
     try {
       new LiquidMetalBtn(btn);
     } catch (e) {
